@@ -7,7 +7,7 @@ public class BallsSimulator implements Simulable {
 	public Balls balls;
 	private Point[] velocity = new Point[4];
 	
-	int x, y, width, height;
+	int x, y, width, height; 
 	
 	public BallsSimulator(int x, int y, int width, int height) {
 		balls = new Balls();

@@ -9,7 +9,7 @@ public class Balls implements GraphicalElement {
 	
 	public Oval get(int i) {
 		return balls[i];
-	}
+	} 
 
 	public Oval[] getBalls() {
 		return balls;
