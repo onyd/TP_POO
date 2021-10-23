@@ -6,12 +6,16 @@ import gui.GraphicalElement;
 public abstract class Entity implements GraphicalElement {
 	protected Point position;
 	
+	public Entity(Point position) {
+		this.position = position;
+	}
+	
 	public int getX() {
-		return (int) (position.getX());
+		return (int) position.getX();
 	}
 	
 	public int getY() {
-		return (int) (position.getY());
+		return (int) position.getY();
 	}
 	
 	public abstract void update(Area area);

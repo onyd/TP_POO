@@ -1,13 +1,19 @@
 package fr.ensimag.cellular_automata;
 
 import java.awt.Graphics2D;
+import java.awt.Point;
 import fr.ensimag.core.Area;
 import fr.ensimag.core.Entity;
 
 public class Case extends Entity{
+	
+
+	public Case(Point position) {
+		super(position);
+	}
 
 	@Override
-	public void paint(Graphics2D arg0) {
+	public void paint(Graphics2D g2d) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -16,6 +22,10 @@ public class Case extends Entity{
 	public void update(Area area) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public Case copy() {
+		return new Case(this.position);
 	}
 
 }
