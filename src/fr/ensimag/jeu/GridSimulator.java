@@ -26,12 +26,13 @@ public class GridSimulator implements Simulable {
 	}
 	
 	private void positionRect(int i, int j, int k, Rectangle rect) {
+		System.out.println(i + " " + j + " " + k + " " + grid.getCellState(i, j));
 		if(k != grid.getCellState(i, j)) {
-			if(rect.getX() == cellSize * i + cellSize/2) { // le rectangle �tait en jeu
+			if(rect.getX() == cellSize * i + cellSize/2) { // le rectangle était en jeu
 				rect.translate(- cellSize * i - cellSize, - cellSize * j - cellSize); // on le met sur le banc de touche
 			}
 		}else {
-			if(rect.getX() == - cellSize/2) { // le rectangle �tait sur le banc de touche
+			if(rect.getX() == - cellSize/2) { // le rectangle était sur le banc de touche
 				rect.translate(+ cellSize * i + cellSize, + cellSize * j + cellSize); // on le met en jeu
 			}
 		}
@@ -45,7 +46,7 @@ public class GridSimulator implements Simulable {
 		for(int i = 0; i < grid.getXSize(); i++) {
 			for(int j = 0; j < grid.getYSize(); j++) {
 				for(int k = 0; k < Cell.nbState; k++) { 
-					positionRect(i, j, k, listRect.get(i * grid.getYSize() * 2 + j * 2 + k));
+					positionRect(i, j, k, listRect.get(i * grid.getYSize() * Cell.nbState + j * Cell.nbState + k));
 				}
 			}
 		}
@@ -54,6 +55,7 @@ public class GridSimulator implements Simulable {
 	@Override
 	public void next() {
 		grid.iterate();
+		System.out.println(grid);
 		this.updateRectanglePosition();
 	}
 	

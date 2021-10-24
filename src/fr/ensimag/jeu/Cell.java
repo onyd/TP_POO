@@ -1,5 +1,7 @@
 package automateCellulaire;
 
+import java.util.List;
+
 public class Cell {
 	private int state = 0; // current state of the cell
 	public static int nbState = 2; // nbState = 2 for Conway; 2, 3, 4, ... for immigration
@@ -18,6 +20,9 @@ public class Cell {
 	
 	protected void nextState() {
 		this.state = (this.state + 1) % nbState;
+	}
+	
+	public void updateCell(List<Cell> neighborCell) {
 	}
 	
 	protected void copyCell(Cell modelCell) {

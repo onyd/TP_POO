@@ -12,20 +12,14 @@ public class ConwayCell extends Cell {
 		super(0);
 	}
 	
-	private boolean isAlive() {
-		if(this.getState() == 1) {
-			return true;
-		}
-		return false;
-	}
-	
-	public void updateCell(List<ConwayCell> neighborCell) {
+	@Override
+	public void updateCell(List<Cell> neighborCell) {
 		/**
 		 * neighborCell is the list of the 8 neighbors of the cell
 		 */
 		int nbNeighborsAlive = 0;
-		for (ConwayCell c: neighborCell) {
-			if(c.isAlive()) {
+		for (Cell c: neighborCell) {
+			if(c.getState() == 1) {
 				nbNeighborsAlive++;
 			}
 		}

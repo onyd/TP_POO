@@ -5,41 +5,80 @@ import java.util.*;
 public class Grid {
 	private int xSize, ySize;
 	
-	// private int gameChoice;
+	private int gameChoice = 0;
 	
-	private List<List<ConwayCell>> initialGrid = new ArrayList<List<ConwayCell>>();
-	private List<List<ConwayCell>> currentGrid = new ArrayList<List<ConwayCell>>();
-	private List<List<ConwayCell>> nextGrid = new ArrayList<List<ConwayCell>>();
+	private List<List<Cell>> initialGrid;
+	private List<List<Cell>> currentGrid;
+	private List<List<Cell>> nextGrid;
 	
-	public Grid(int xSize, int ySize) {
+	public Grid(int xSize, int ySize, int gameChoice) {
 		this.xSize = xSize;
 		this.ySize = ySize;
-		// this.gameChoice = gameChoice;
+		this.gameChoice = gameChoice;
+		
+		switch(this.gameChoice) {
+			case 1: // jeu de la vie
+				Cell.nbState = 2;
+				break;
+			case 2: // jeu de l'immigration
+				Cell.nbState = 3; // k = 4, par défaut
+				break;
+			default:
+				System.out.println("Jeu non séléctionnable...");
+				// Il faut mettre une erreur
+				break;
+		}
+		
+		initialGrid = new ArrayList<List<Cell>>();
+		currentGrid = new ArrayList<List<Cell>>();
+		nextGrid = new ArrayList<List<Cell>>();
+		
 		for (int i = 0; i < xSize; i++) {
-			List<ConwayCell> listCell = new ArrayList<ConwayCell>();
+			List<Cell> listCell = new ArrayList<Cell>();
 			currentGrid.add(listCell);
 			
-			List<ConwayCell> listCell2 = new ArrayList<ConwayCell>();
+			List<Cell> listCell2 = new ArrayList<Cell>();
 			nextGrid.add(listCell2);
 			
-			List<ConwayCell> listCell3 = new ArrayList<ConwayCell>();
+			List<Cell> listCell3 = new ArrayList<Cell>();
 			initialGrid.add(listCell3);
 			
 			for(int j = 0; j < ySize; j++) {
-				ConwayCell cell = new ConwayCell(rand(0, 1));
-				currentGrid.get(i).add(cell);
-				
-				ConwayCell cell2 = new ConwayCell(rand(0, 1));
-				nextGrid.get(i).add(cell2);
-				
-				ConwayCell cell3 = new ConwayCell(rand(0, 1));
-				initialGrid.get(i).add(cell3);
+				switch(this.gameChoice) {
+					case 1: // jeu de la vie
+						ConwayCell cellc = new ConwayCell(rand(0, 1));
+						currentGrid.get(i).add(cellc);
+						
+						ConwayCell cellc2 = new ConwayCell(rand(0, 1));
+						nextGrid.get(i).add(cellc2);
+						
+						ConwayCell cellc3 = new ConwayCell(rand(0, 1));
+						initialGrid.get(i).add(cellc3);
+						
+						break;
+						
+					case 2: // jeu de l'immigration
+						System.out.println("Ajout de cell de l'immi");
+						ImmigrationCell celli = new ImmigrationCell(rand(0, Cell.nbState - 1));
+						currentGrid.get(i).add(celli);
+						
+						ImmigrationCell celli2 = new ImmigrationCell(rand(0,  Cell.nbState - 1));
+						nextGrid.get(i).add(celli2);
+						
+						ImmigrationCell celli3 = new ImmigrationCell(rand(0,  Cell.nbState - 1));
+						initialGrid.get(i).add(celli3);
+						break;
+					
+					default:
+						System.out.println("Jeu non séléctionnable...");
+						break;
+				}
 			}
 		}
 	}
 	
 	public Grid() {
-		this(20, 20);
+		this(20, 20, 1); // jeu de la vie par défaut
 	}
 	
 	public int getCellState(int i, int j) {
@@ -59,27 +98,31 @@ public class Grid {
 		for (int i = 0; i < xSize; i++) {
 			for(int j = 0; j < ySize; j++) {
 				// update case [i][j] in nextGrid
-				List<ConwayCell> neighborsCell = getNeighbors(i, j);
+				List<Cell> neighborsCell = getNeighbors(i, j);
 				nextGrid.get(i).get(j).updateCell(neighborsCell);
 			}
 		}
 	}
 	
-	private List<ConwayCell> getNeighbors(int i, int j) {
-		List<ConwayCell> neighborsList = new ArrayList<ConwayCell>();
+	private List<Cell> getNeighbors(int i, int j) {
+		List<Cell> neighborsList = new ArrayList<Cell>();
 		for(int a = -1; a <= 1; a++) {
 			for(int b = -1; b <= 1; b++) {
 				if(!(a == 0 && b == 0)) {
-					if(this.isInGrid(i + a, j + b)) {
-						neighborsList.add(currentGrid.get(i + a).get(j + b));
-					}
+					// l'espace de jeu est circulaire, une cellule
+					// tout à gauche a une voisine tout à droite de la grille
+					neighborsList.add(currentGrid.get((i + a + this.xSize) %  this.xSize).get((j + b + this.ySize) % this.ySize));
+					
+					//if(this.isInGrid(i + a, j + b)) {
+					//	neighborsList.add(currentGrid.get(i + a).get(j + b));
+					//}
 				}
 			}
 		}
 		return neighborsList;
 	}
 	
-	private void copyAIntoB(List<List<ConwayCell>> a, List<List<ConwayCell>> b) {
+	private void copyAIntoB(List<List<Cell>> a, List<List<Cell>> b) {
 		for (int i = 0; i < xSize; i++) {
 			for(int j = 0; j < ySize; j++) {
 				b.get(i).get(j).copyCell(a.get(i).get(j));
@@ -87,9 +130,9 @@ public class Grid {
 		}
 	}
 	
-	private boolean isInGrid(int k, int l) {
-		return (k >= 0 && k < this.xSize && l >= 0 && l < this.ySize);
-	}
+	//private boolean isInGrid(int k, int l) {
+	//	return (k >= 0 && k < this.xSize && l >= 0 && l < this.ySize);
+	//}
 	
 	public int getXSize() {
 		return this.xSize;

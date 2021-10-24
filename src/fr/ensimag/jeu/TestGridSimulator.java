@@ -9,8 +9,14 @@ public class TestGridSimulator {
 
 	public static void main(String[] args) {
 		int gridXSize = 50, gridYSize = 50;
-		Grid grid = new Grid(gridXSize, gridYSize);
 		
+		// gameChoice -->
+			// 1 : jeu de la vie
+			// 2 : jeu de l'immigration
+		int gameChoice = 1;
+		
+		Grid grid = new Grid(gridXSize, gridYSize, gameChoice);
+				
 		GridSimulator simu = new GridSimulator(grid);
 		
 		int limX = gridXSize * simu.getCellSize();
@@ -21,8 +27,12 @@ public class TestGridSimulator {
 		gui.setSimulable(simu);
 		
 		for (Rectangle r :simu.getListRectangle()) {
+			//System.out.println("Ajout graphical element");
 			gui.addGraphicalElement(r);
 		}
+		
+		System.out.println("Le jeu n°" + gameChoice + " va se lancer sur une grille de " + gridXSize + "x" + gridYSize + ".");
+
 	}
 
 }
