@@ -1,18 +1,18 @@
 package fr.ensimag.core;
 
-import java.awt.Point;
+import fr.ensimag.math.FPoint2D;
 import gui.GraphicalElement;
 
 public abstract class Entity implements GraphicalElement {
-	protected Point position;
+	protected FPoint2D position;
 	
-	public Entity(Point position) {
+	public Entity(FPoint2D position) {
 		this.position = position;
 	}
 	
 	public int getX() {
 		return (int) position.getX();
-	}
+	} 
 	
 	public int getY() {
 		return (int) position.getY();

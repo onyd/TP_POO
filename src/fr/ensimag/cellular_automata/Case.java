@@ -1,14 +1,14 @@
 package fr.ensimag.cellular_automata;
 
 import java.awt.Graphics2D;
-import java.awt.Point;
 import fr.ensimag.core.Area;
 import fr.ensimag.core.Entity;
+import fr.ensimag.math.FPoint2D;
 
 public class Case extends Entity{
 	
 
-	public Case(Point position) {
+	public Case(FPoint2D position) {
 		super(position);
 	}
 

@@ -2,22 +2,20 @@ package fr.ensimag.boids;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.geom.Point2D;
 import fr.ensimag.core.Area;
 import fr.ensimag.core.Entity;
+import fr.ensimag.math.FPoint2D;
+import fr.ensimag.math.FVector2D;
 
 public class Boids extends Entity {
-	private Point2D.Float velocity;
-	private float orientation;
+	private FVector2D velocity;
 	private float viewDistance;
-	private float fov;
+	private float fov; 
 
 
-	public Boids(Point position, Point2D.Float velocity, float orientation, float visionradius, float fov) {
+	public Boids(FPoint2D position, FVector2D velocity, float visionradius, float fov) {
 		super(position);
-		this.velocity = velocity;
-		this.orientation = orientation;
+		this.velocity = velocity; 
 		this.viewDistance = visionradius;
 		this.fov = fov;
 	}
@@ -33,5 +31,18 @@ public class Boids extends Entity {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	private void separate() {
+		
+	}
+	
+	private void cohesion() {
+		
+	}
+	
+	private void align() {
+		
+	}
+	
 
 }
