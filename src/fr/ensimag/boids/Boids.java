@@ -28,7 +28,7 @@ public class Boids extends Entity {
 
 	@Override
 	public void update(Area area) {
-		FVector2D separation = separate(area.get);
+		
 		
 	}
 	
