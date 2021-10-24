@@ -10,4 +10,5 @@ public abstract class Area implements  Simulable{
 		this.width = width;
 		this.height = height;
 	}
+	
 }

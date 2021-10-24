@@ -6,7 +6,8 @@ import fr.ensimag.core.Entity;
 import fr.ensimag.math.FPoint2D;
 
 public class Case extends Entity{
-	
+	State currentState;
+	State nextState;
 
 	public Case(FPoint2D position) {
 		super(position);
@@ -24,8 +25,9 @@ public class Case extends Entity{
 		
 	}
 
-	public Case copy() {
-		return new Case(this.position);
+	public void updateState() {
+		currentState = nextState;
 	}
+
 
 }

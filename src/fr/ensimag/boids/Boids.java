@@ -28,19 +28,19 @@ public class Boids extends Entity {
 
 	@Override
 	public void update(Area area) {
-		// TODO Auto-generated method stub
+		FVector2D separation = separate(area.get);
 		
 	}
 	
-	private void separate() {
+	private void separate(Boids[] boids) {
 		
 	}
 	
-	private void cohesion() {
+	private void cohesion(Boids[] boids) {
 		
 	}
 	
-	private void align() {
+	private void align(Boids[] boids) {
 		
 	}
 	

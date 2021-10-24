@@ -20,6 +20,16 @@ public class FVector2D {
 		this.y -= v.y;
 	}
 	
+	public void mult(float a) {
+		this.x *= a;
+		this.y *= a;
+	}
+	
+	public void div(float a) {
+		this.x /= a;
+		this.y /= a;
+	}
+	
 	public float dot(FVector2D v) {
 		return x*v.x + y*v.y;
 	}
@@ -29,8 +39,6 @@ public class FVector2D {
 	}
 	
 	public void normalize() {
-		float norm = norm();
-		this.x /= norm;
-		this.y /= norm;
+		this.div(norm());
 	}
 }

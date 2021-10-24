@@ -8,8 +8,12 @@ public class FPoint2D extends Point2D.Float {
 	public FPoint2D(float x, float y) {
 		super(x, y);
 	}
-
+	
+	public FVector2D sub(FPoint2D p) {
+		return new FVector2D((float) (x-p.getX()), (float) (y-p.getY()));
+	}
+	
 	public float distance(FPoint2D p) {
-		return (float) (Math.pow(getX()-p.getX(), 2)+Math.pow(getY()-p.getY(), 2));
+		return this.sub(p).norm();
 	}
 }
