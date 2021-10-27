@@ -6,7 +6,7 @@ import gui.GUISimulator;
 
 public class BoidsTest {
 	public static void main(String[] args) {
-		BoidsArea area = new BoidsArea(600, 400, 10, 20.0f, 120.0f);
+		BoidsArea area = new BoidsArea(600, 400, 100, 40.0f, 150.0f);
 		GUISimulator gui = new GUISimulator(600, 400, Color.WHITE, area);
 		
 		area.addGraphicalElementsTo(gui);

@@ -25,5 +25,13 @@ public abstract class Area<T extends Entity> implements Simulable {
 			gui.addGraphicalElement(entity);
 		}
 	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int getHeight() {
+		return height;
+	}
 	
 }

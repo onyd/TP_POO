@@ -25,7 +25,7 @@ public class GridArea extends Area<Case> {
 	}
 	
 	public Case getCase(int i, int j) {
-		return entities.get(i * width + j);
+		return entities.get(i * width / caseSize + j);
 	}
 	
 	@Override
