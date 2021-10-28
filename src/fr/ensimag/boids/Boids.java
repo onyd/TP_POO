@@ -3,10 +3,7 @@ package fr.ensimag.boids;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.Collection;
-
 import fr.ensimag.core.Area;
-import fr.ensimag.core.BoidsArea;
 import fr.ensimag.core.Entity;
 import fr.ensimag.math.FPoint2D;
 import fr.ensimag.math.FVector2D;
@@ -19,11 +16,11 @@ public class Boids extends Entity {
 	private float fov; 
 
 
-	public Boids(FPoint2D position, FVector2D velocity, float visionradius, float fov) {
+	public Boids(FPoint2D position, FVector2D velocity, float viewDistance, float fov) {
 		super(position);
 		this.velocity = velocity; 
 		
-		this.viewDistance = visionradius;
+		this.viewDistance = viewDistance;
 		this.fov = Conversions.radian(fov);
 	}
 	
@@ -51,8 +48,7 @@ public class Boids extends Entity {
 		g2d.drawLine((int) x1.getX(), (int) x1.getY(), (int) x3.getX(), (int) x3.getY());
 	}
 
-	@Override
-	public void update(Area<?> area) {
+	public void update(Area<Boids> area) {
 		ArrayList<Boids> boids = (ArrayList<Boids>) area.getEntities();
 		FVector2D separationForce = separate(boids);
 		FVector2D cohesionForce = cohesion(boids);
@@ -82,7 +78,7 @@ public class Boids extends Entity {
 	
 	private Boolean isViewing(Boids b) {
 		float d = this.position.distance(b.position);
-		if (d == 0.0f || d > 2.0f * radius) {
+		if (d == 0.0f || d > viewDistance) {
 			return false;
 		} 
 		FVector2D dir = b.position.sub(this.position);

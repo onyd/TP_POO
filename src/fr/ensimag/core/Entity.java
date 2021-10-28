@@ -18,6 +18,4 @@ public abstract class Entity implements GraphicalElement {
 		return (int) position.getY();
 	}
 	
-	public abstract void update(Area<?> area);
-
 }

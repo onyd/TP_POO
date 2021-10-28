@@ -1,6 +1,5 @@
 package fr.ensimag.core;
 
-import java.util.Random;
 import fr.ensimag.boids.Boids;
 import fr.ensimag.math.FPoint2D;
 import fr.ensimag.math.FVector2D;
@@ -30,7 +29,6 @@ public class BoidsArea extends Area<Boids> {
 	@Override
 	public void restart() {
 		// Initialization with randomly distributed Boids
-		Random r = new Random();
 		for (int i = 0; i < n_boids; i++) {
 			entities.add(new Boids(new FPoint2D(width / 2.0f , height / 2.0f), new FVector2D(4.0f, 2.0f), viewDistance, fov));
 		}

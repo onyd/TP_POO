@@ -17,7 +17,7 @@ public class GridArea extends Area<Case> {
 	@Override
 	public void next() {
 		for (Case c : entities) {
-			c.update(this);
+			c.getNextState().nextState(this);
 		}
 		for (Case c : entities) {
 			c.updateState();

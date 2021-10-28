@@ -1,11 +1,12 @@
 package fr.ensimag.cellular_automata;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
-import fr.ensimag.core.Area;
 import fr.ensimag.core.Entity;
 import fr.ensimag.math.FPoint2D;
 
 public class Case extends Entity {
+	private Color color;
 	private State currentState;
 	private State nextState;
 	
@@ -17,18 +18,17 @@ public class Case extends Entity {
 		this.height = height;
 	}
 
-	public void updateState() {
-		currentState = nextState;
+	public State getNextState() {
+		return nextState;
 	}
-
-	@Override
-	public void update(Area<?> area) {
-		Area<Case> cases = (Area<Case>) area;
-		// Here update cases state
+	
+	public void updateState() {
+		currentState = nextState.copy();
 	}
 	
 	@Override
 	public void paint(Graphics2D g2d) {
+		g2d.setColor(color);
 		g2d.drawRect(getX(), getY(), width, height);
 		
 	}
