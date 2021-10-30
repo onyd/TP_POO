@@ -7,7 +7,6 @@ import java.util.Random;
 public class SchellingCell extends Cell {
 	private static int K = 3; // by default
 	public static List<Cell> vacantCells = new ArrayList<Cell>();
-	public static List<Cell> initalVacantCells = new ArrayList<Cell>();
 	public static int numberVacantCells = 0;
 	
 	public SchellingCell(int state) {
