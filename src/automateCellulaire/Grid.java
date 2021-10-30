@@ -21,13 +21,13 @@ public class Grid {
 				Cell.nbState = 2;
 				break;
 			case 2: // jeu de l'immigration
-				Cell.nbState = 3; // k = 4, par défaut
+				Cell.nbState = 3; // k = 4, par dfaut
 				break;
-			case 3: // Modèle de Schelling
+			case 3: // Modle de Schelling
 				Cell.nbState = 4;
 				break;
 			default:
-				throw new IllegalArgumentException("Jeu non sélectionnable...");
+				throw new IllegalArgumentException("Jeu non slectionnable...");
 		}
 		
 		initialGrid = new ArrayList<List<Cell>>();
@@ -63,7 +63,7 @@ public class Grid {
 						initialGrid.get(i).add(new ImmigrationCell(celli.getState()));
 						break;
 						
-					case 3: // Modèle de Schelling
+					case 3: // Modle de Schelling
 						System.out.println("Ajout de cell de Schelling");
 						int r = rand(0, Cell.nbState - 1);
 						SchellingCell cells = new SchellingCell(r);
@@ -73,7 +73,7 @@ public class Grid {
 						initialGrid.get(i).add(new SchellingCell(cells.getState()));
 						break;
 					default:
-						System.out.println("Jeu non séléctionnable...");
+						System.out.println("Jeu non slctionnable...");
 						break;
 				}
 			}
@@ -81,7 +81,7 @@ public class Grid {
 	}
 	
 	public Grid() {
-		this(20, 20, 1); // jeu de la vie par défaut
+		this(20, 20, 1); // jeu de la vie par dfaut
 	}
 	
 	public int getCellState(int i, int j) {
@@ -116,7 +116,6 @@ public class Grid {
 				nextGrid.get(i).get(j).updateCell(neighborsCell);
 			}
 		}
-		System.out.print(SchellingCell.numberVacantCells);
 	}
 	
 	private List<Cell> getNeighbors(int i, int j) {
@@ -125,7 +124,7 @@ public class Grid {
 			for(int b = -1; b <= 1; b++) {
 				if(!(a == 0 && b == 0)) {
 					// l'espace de jeu est circulaire, une cellule
-					// tout à gauche a une voisine tout à droite de la grille
+					// tout  gauche a une voisine tout  droite de la grille
 					neighborsList.add(currentGrid.get((i + a + this.xSize) %  this.xSize).get((j + b + this.ySize) % this.ySize));
 					
 					//if(this.isInGrid(i + a, j + b)) {
