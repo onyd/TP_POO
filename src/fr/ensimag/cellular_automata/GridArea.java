@@ -1,6 +1,6 @@
-package fr.ensimag.core;
+package fr.ensimag.cellular_automata;
 
-import fr.ensimag.cellular_automata.Case;
+import fr.ensimag.core.Area;
 import fr.ensimag.math.FPoint2D;
 
 public class GridArea extends Area<Case> {
