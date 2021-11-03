@@ -2,39 +2,40 @@ package fr.ensimag.core;
 
 import fr.ensimag.cellular_automata.Case;
 import fr.ensimag.math.FPoint2D;
+import fr.ensimag.cellular_automata.Grid;
 
 public class GridArea extends Area<Case> {
 	protected int caseSize;
+	private Grid g;
 	
-	public GridArea(int width, int height, int caseSize) {
+	public GridArea(int width, int height, int caseSize, int gameChoice) {
 		super(width, height);
+		this.g = new Grid( width/caseSize, height/caseSize, gameChoice);
 		this.caseSize = caseSize;
-		
 		this.entities.ensureCapacity(width*height/caseSize/caseSize);
-		this.restart();
-	}
-	
-	@Override
-	public void next() {
-		for (Case c : entities) {
-			c.getNextState().nextState(this);
-		}
-		for (Case c : entities) {
-			c.updateState();
-		}
-	}
-	
-	public Case getCase(int i, int j) {
-		return entities.get(i * width / caseSize + j);
-	}
-	
-	@Override
-	public void restart() {
+
 		for (int i = 0; i < width/caseSize; i++) {
 			for (int j = 0; j < height/caseSize; j++) {
-				this.entities.add(new Case(new FPoint2D(i, j), width, height));
+				this.entities.add(new Case(new FPoint2D(i * caseSize, j * caseSize), caseSize, caseSize, g.getCell(i, j)));
 			}
 		}
 	}
 
+	private void updateCases(){
+		for(Case c: super.entities){
+			c.updateColor();
+		}
+	}
+	
+	@Override
+	public void next() {
+		g.iterate();
+		this.updateCases();
+	}
+
+	@Override
+	public void restart() {
+		g.restart();
+		this.updateCases();
+	}
 }
