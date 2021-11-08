@@ -33,25 +33,10 @@ public class Case extends Entity {
 		this.color = c;
 	}
 
-	<<<<<<<HEAD
-
-	public void updateState() {
-		currentState = nextState.copy();
-	}
-
-	@Override
-	public void paint(Graphics2D g2d) {
-		g2d.setColor(color);
-		g2d.drawRect(getX(), getY(), width, height);
-
-	}
-
-	=======
-
 	/** graphic **/
 	@Override
 	public void paint(Graphics2D g2d) {
 		g2d.setColor(this.color);
 		g2d.fillRect(getX(), getY(), width, height);
-	}>>>>>>>implement_jeux
+	}
 }

@@ -2,7 +2,7 @@ package fr.ensimag.cellular_automata;
 
 import java.util.List;
 import java.util.ArrayList;
-import fr.ensimag.math.Rand;
+import fr.ensimag.math.MathUtil;
 
 public class Grid {
     private final int width, height;
@@ -53,7 +53,7 @@ public class Grid {
             for(int j = 0; j < this.height; j++) {
                 switch(gameChoice) {
                     case 1: // jeu de la vie
-                        ConwayState currState = new ConwayState(Rand.rand(0, 1));
+                        ConwayState currState = new ConwayState(MathUtil.rand(0, 1));
                         ConwayState nextState = new ConwayState(currState);
                         ConwayState initState = new ConwayState(currState);
                         Cell c = new Cell(currState, nextState, initState);
@@ -61,7 +61,7 @@ public class Grid {
                         break;
 
                     case 2: // jeu de l'immigration
-                        ImmigrationState currState2 = new ImmigrationState(Rand.rand(0, State.nbState - 1));
+                        ImmigrationState currState2 = new ImmigrationState(MathUtil.rand(0, State.nbState - 1));
                         ImmigrationState nextState2 = new ImmigrationState(currState2);
                         ImmigrationState initState2 = new ImmigrationState(currState2);
                         Cell c2 = new Cell(currState2, nextState2, initState2);
@@ -69,8 +69,8 @@ public class Grid {
                         break;
 
                     case 3: // Modle de Schelling
-                        int r = Rand.rand(0, State.nbState - 1);
-                        SchellingState currState3 = new SchellingState(Rand.rand(0, State.nbState - 1));
+                        int r = MathUtil.rand(0, State.nbState - 1);
+                        SchellingState currState3 = new SchellingState(MathUtil.rand(0, State.nbState - 1));
                         SchellingState nextState3 = new SchellingState(currState3);
                         SchellingState initState3 = new SchellingState(currState3);
                         Cell c3 = new Cell(currState3, nextState3, initState3);

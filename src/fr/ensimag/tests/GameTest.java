@@ -1,10 +1,8 @@
 package fr.ensimag.tests;
-import fr.ensimag.core.BoidsArea;
-import fr.ensimag.core.GridArea;
+import fr.ensimag.cellular_automata.GridArea;
 import gui.GUISimulator;
 
 import java.awt.*;
-import fr.ensimag.cellular_automata.*;
 
 public class GameTest {
     public static void main(String[] args) {

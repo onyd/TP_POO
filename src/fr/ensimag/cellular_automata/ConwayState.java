@@ -1,7 +1,5 @@
 package fr.ensimag.cellular_automata;
 
-import fr.ensimag.core.GridArea;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ConwayState extends ModuloState{

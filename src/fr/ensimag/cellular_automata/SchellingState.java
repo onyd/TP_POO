@@ -1,10 +1,8 @@
 package fr.ensimag.cellular_automata;
 
-import fr.ensimag.core.GridArea;
-
 import java.util.ArrayList;
 import java.util.List;
-import fr.ensimag.math.Rand;
+import fr.ensimag.math.MathUtil;
 
 public class SchellingState extends State{
     private static int K = 3; // by default
@@ -48,7 +46,7 @@ public class SchellingState extends State{
 
     private void move() {
         // TODO si toutes les cases sont prises ???
-        int r = Rand.rand(0, numberVacantCells - 1);
+        int r = MathUtil.rand(0, numberVacantCells - 1);
 
         // vacantCells.get(r) est la cellule qui devient habitée
         vacantCells.get(r).getNextState().copy(this);

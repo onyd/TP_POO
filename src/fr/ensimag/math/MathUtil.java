@@ -1,5 +1,7 @@
 package fr.ensimag.math;
 
+import java.util.Random;
+
 public class MathUtil {
 	public static float radian(float degree) {
 		return (degree * (float) Math.PI / 180.0f);
@@ -25,4 +27,12 @@ public class MathUtil {
 			float endAngle) {
 		return isInRange(toCheck, center, radius) && isInField(toCheck, lookDir, center, beginAngle, endAngle);
 	}
+	
+	public static int rand(int min, int max) {
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
 }

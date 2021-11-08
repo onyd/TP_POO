@@ -1,7 +1,5 @@
 package fr.ensimag.cellular_automata;
 
-import fr.ensimag.core.GridArea;
-
 import java.util.List;
 
 public class ImmigrationState extends ModuloState{
