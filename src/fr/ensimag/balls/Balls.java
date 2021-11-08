@@ -39,7 +39,7 @@ public class Balls implements GraphicalElement {
 		for (Oval b : this.balls) {
 			str += "x = " + b.getX() + " | y = " + b.getY() + "\n";
 		}
-		return (str);
+		return str;
 	}
 
 	@Override
