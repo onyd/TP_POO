@@ -5,14 +5,14 @@ import fr.ensimag.boids.Agent;
 import fr.ensimag.boids.AgentGroup;
 import fr.ensimag.math.FVector2D;
 
-public class CohesionInteraction extends ForceInteraction {
+public class CohesionForce extends ForceInteraction {
 
-	public CohesionInteraction(AgentGroup actors, float multiplier, float clipping, float maxSpeed) {
+	public CohesionForce(AgentGroup actors, float multiplier, float clipping, float maxSpeed) {
 		super(actors, multiplier, clipping, maxSpeed);
 	}
 
 	@Override
-	public void interaction(Agent target, List<Agent> actors) {
+	public FVector2D computeForce(Agent target, List<Agent> actors) {
 		FVector2D result = new FVector2D(0.0f, 0.0f);
 		int count = 0;
 		for (Agent b : actors) {
@@ -26,7 +26,8 @@ public class CohesionInteraction extends ForceInteraction {
 			result.div(count);
 			result.sub(target.getPosition());
 			this.process(target, result);
-			target.applyForce(result);
+			return result;
 		}
+		return new FVector2D(0.0f, 0.0f);
 	}
 }

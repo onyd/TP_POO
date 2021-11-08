@@ -24,11 +24,6 @@ public class AgentArea extends EventArea<Agent> {
 	}
 
 	@Override
-	public void next() {
-		eventManger.next();
-	}
-
-	@Override
 	public void restart() {
 		this.entities.clear();
 		for (AgentGroup group : groups) {
@@ -38,8 +33,8 @@ public class AgentArea extends EventArea<Agent> {
 				Agent b = new Agent(
 						new FPoint2D(width / 2.0f + (2 * r.nextFloat() - 1.0f),
 								height / 2.0f + (2 * r.nextFloat() - 1.0f)),
-						new FVector2D(4.0f, 2.0f), group.getRadius(), group.getViewDistance(), group.getFov(),
-						group.getColor());
+						new FVector2D(4.0f, 2.0f), group.getInitialRadius(), group.getInitialViewDistance(),
+						group.getInitialFov(), group.getInitialColor());
 				group.add(b);
 				this.entities.add(b);
 

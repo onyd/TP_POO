@@ -7,14 +7,14 @@ import fr.ensimag.boids.Agent;
 import fr.ensimag.boids.AgentGroup;
 import fr.ensimag.math.FVector2D;
 
-public class TrackingInteraction extends ForceInteraction {
+public class TrackingForce extends ForceInteraction {
 
-	public TrackingInteraction(AgentGroup actors, float multiplier, float clipping, float maxSpeed) {
+	public TrackingForce(AgentGroup actors, float multiplier, float clipping, float maxSpeed) {
 		super(actors, multiplier, clipping, maxSpeed);
 	}
 
 	@Override
-	public void interaction(Agent target, List<Agent> actors) {
+	public FVector2D computeForce(Agent target, List<Agent> actors) {
 		Iterator<Agent> it = actors.iterator();
 		if (it.hasNext()) {
 			Agent nearest = it.next();
@@ -27,7 +27,7 @@ public class TrackingInteraction extends ForceInteraction {
 				current = nearest;
 				currentDistance = target.getPosition().distance(nearest.getPosition());
 			}
-			
+
 			// Find the nearest actor to target
 			while (it.hasNext()) {
 				current = it.next();
@@ -36,15 +36,17 @@ public class TrackingInteraction extends ForceInteraction {
 					nearest = current;
 				}
 			}
-			
-			// nearest can have 0 distance in the case where all actors have 0 distance but isViewing would return false
+
+			// nearest can have 0 distance in the case where all actors have 0 distance but
+			// isViewing would return false
 			if (target.isViewing(nearest)) {
 				FVector2D result = nearest.getPosition().sub(target.getPosition());
 				result.mult(currentDistance);
 				this.process(target, result);
-				target.applyForce(result);
+				return result;
 			}
 		}
+		return new FVector2D(0.0f, 0.0f);
 	}
 
 }

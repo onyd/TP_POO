@@ -5,16 +5,16 @@ import fr.ensimag.boids.Agent;
 import fr.ensimag.boids.AgentGroup;
 import fr.ensimag.math.FVector2D;
 
-public class SeparationInteraction extends ForceInteraction {
+public class SeparationForce extends ForceInteraction {
 	private float effectRadius;
 	
-	public SeparationInteraction(AgentGroup actors, float effectRadius, float multiplier, float clipping, float maxSpeed) {
+	public SeparationForce(AgentGroup actors, float effectRadius, float multiplier, float clipping, float maxSpeed) {
 		super(actors, multiplier, clipping, maxSpeed);
 		this.effectRadius = effectRadius;
 	}
 
 	@Override
-	public void interaction(Agent target, List<Agent> actors) {
+	public FVector2D computeForce(Agent target, List<Agent> actors) {
 		FVector2D result = new FVector2D(0.0f, 0.0f);
 		int count = 0;
 
@@ -32,7 +32,9 @@ public class SeparationInteraction extends ForceInteraction {
 		if (count > 0) {
 			result.div(count);
 			this.process(target, result);
-			target.applyForce(result);
+			return result;
+		} else {
+			return new FVector2D(0.0f, 0.0f);
 		}
 	}
 

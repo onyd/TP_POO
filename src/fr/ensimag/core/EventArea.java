@@ -18,5 +18,10 @@ public abstract class EventArea<T extends Entity> extends Area<T> {
 	public long getDate() {
 		return this.eventManger.getDate();
 	}
+	
+	@Override
+	public void next() {
+		eventManger.next();
+	}
 
 }

@@ -41,8 +41,12 @@ public class BiDimensionalArray<E> {
 		return this.get(indicies.first, indicies.second);
 	}
 	
-	public void set(int i, int j, E e) {
-		this.list.set(indexOf(i, j), e);
+	public void set(int i, int j, E o) {
+		this.list.set(indexOf(i, j), o);
+	}
+	
+	public void set(Pair<Integer, Integer> pair, E o) {
+		this.set(pair.first,  pair.second, o);
 	}
 
 	public int getWidth() {

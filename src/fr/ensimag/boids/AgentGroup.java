@@ -14,19 +14,19 @@ public class AgentGroup {
 	private BiDimensionalArray<ArrayList<Agent>> agentsGrid; // Stores the Agent in each grid cell of width/height
 																// viewDistance/sqrt(2)
 	private ArrayList<Interaction> interactions;
-	private float radius;
-	protected float viewDistance;
-	protected float fov;
-	protected Color color;
+	private float initialRadius;
+	private float initialViewDistance;
+	private float initialFov;
+	private Color initialColor;
 	private int updateStep;
 
 	protected float maxSpeed = 5.0f;
 
 	public AgentGroup(int updateStep, int agentNumber, float radius, float viewDistance, float fov, Color color) {
-		this.radius = radius;
-		this.viewDistance = viewDistance;
-		this.fov = fov;
-		this.color = color;
+		this.initialRadius = radius;
+		this.initialViewDistance = viewDistance;
+		this.initialFov = fov;
+		this.initialColor = color;
 		this.updateStep = updateStep;
 		this.agentNumber = agentNumber;
 
@@ -38,24 +38,41 @@ public class AgentGroup {
 		return agentNumber;
 	}
 
-	public float getRadius() {
-		return radius;
+	public float getInitialRadius() {
+		return initialRadius;
 	}
 
-	public float getViewDistance() {
-		return viewDistance;
+	public float getInitialViewDistance() {
+		return initialViewDistance;
 	}
 
-	public float getFov() {
-		return fov;
+	public float getInitialFov() {
+		return initialFov;
 	}
 
-	public Color getColor() {
-		return color;
+	public void setInitialRadius(float initialRadius) {
+		this.initialRadius = initialRadius;
+	}
+
+	public void setInitialViewDistance(float initialViewDistance) {
+		this.initialViewDistance = initialViewDistance;
+	}
+
+	public void setInitialFov(float initialFov) {
+		this.initialFov = initialFov;
+	}
+
+	public void setInitialColor(Color initialColor) {
+		this.initialColor = initialColor;
+	}
+
+	public Color getInitialColor() {
+		return initialColor;
 	}
 
 	public Pair<Integer, Integer> getKey(Agent a) {
-		return new Pair<Integer, Integer>((int) (a.getX() / viewDistance), (int) (a.getY() / viewDistance));
+		return new Pair<Integer, Integer>((int) (a.getX() / initialViewDistance),
+				(int) (a.getY() / initialViewDistance));
 	}
 
 	public void add(Agent a) {
@@ -69,6 +86,10 @@ public class AgentGroup {
 
 	public void removeInteraction(Interaction i) {
 		this.interactions.remove(i);
+	}
+
+	public int getUpdateStep() {
+		return updateStep;
 	}
 
 	private void clipPosition(Agent b, Area<Agent> area) {
@@ -132,8 +153,8 @@ public class AgentGroup {
 	}
 
 	public void setup(AgentArea area) {
-		int width = (int) (area.getWidth() / viewDistance);
-		int height = (int) (area.getHeight() / viewDistance);
+		int width = (int) (area.getWidth() / initialViewDistance);
+		int height = (int) (area.getHeight() / initialViewDistance);
 		this.agentsGrid = new BiDimensionalArray<>(width, height);
 
 		for (int i = 0; i < height; i++) {
@@ -156,7 +177,6 @@ public class AgentGroup {
 	}
 
 	public List<Agent> getNeighboors(Pair<Integer, Integer> cell) {
-		// Build an iterator over all Boids of neighboor cells
 		ArrayList<Agent> neighboors = new ArrayList<>();
 		for (Pair<Integer, Integer> key : this.getNeighboorsRegions(cell.first, cell.second)) {
 			for (Agent neighboor : agentsGrid.get(key)) {
@@ -179,7 +199,4 @@ public class AgentGroup {
 		return agents;
 	}
 
-	public int getUpdateStep() {
-		return updateStep;
-	}
 }
