@@ -70,7 +70,5 @@ public class SchellingState extends State{
         // this cell became free
         this.setState(0);
         vacantCells.add(motherCell);
-
-        System.out.println("size vacant cells : " + vacantCells.size());
     }
 }
