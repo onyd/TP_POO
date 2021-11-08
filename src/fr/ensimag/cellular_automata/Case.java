@@ -11,7 +11,7 @@ import fr.ensimag.math.FPoint2D;
  * (linked calculation and graphics)
  */
 public class Case extends Entity {
-	// calcul
+	// calculation
 	/**
 	 * linked cell
 	 */

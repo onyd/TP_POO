@@ -26,6 +26,15 @@ public abstract class State {
 	}
 
 	/**
+	 * set this state to i
+	 * @param i new state
+	 */
+	public void setState(int i){
+		// TODO raise error if i >= nbState
+		this.value = i;
+	}
+
+	/**
 	 * update the attribute 'value' with state in the Moore neighborhood
 	 */
 	public abstract void nextState(List<State> neighborsState);

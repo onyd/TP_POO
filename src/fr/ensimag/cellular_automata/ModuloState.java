@@ -17,6 +17,6 @@ public abstract class ModuloState extends State{
      * increase the 'value' attribute by 1
      */
     public void increaseValue(){
-        this.value = (this.value + 1) % State.nbState;
+        this.setState((this.value + 1) % State.nbState);
     }
 }

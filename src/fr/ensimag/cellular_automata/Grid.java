@@ -87,9 +87,9 @@ public class Grid {
                         this.cellList.add(c2);
                         break;
 
-                    case 3: // Modle de Schelling
+                    case 3: // Schelling
                         int r = Rand.rand(0, State.nbState - 1);
-                        SchellingState currState3 = new SchellingState(Rand.rand(0, State.nbState - 1));
+                        SchellingState currState3 = new SchellingState(r);
                         SchellingState nextState3 = new SchellingState(currState3);
                         SchellingState initState3 = new SchellingState(currState3);
                         Cell c3 = new Cell(currState3, nextState3, initState3);
@@ -134,8 +134,8 @@ public class Grid {
         for(int a = -1; a <= 1; a++) {
             for(int b = -1; b <= 1; b++) {
                 if(!(a == 0 && b == 0)) {
-                    // l'espace de jeu est circulaire, une cellule
-                    // tout  gauche a une voisine tout  droite de la grille
+                    // game area is "circular", a cell on the left side
+                    // has a neighbor on the right side
                     neighborsList.add(this.getCell((i + a + this.width) %  this.width, (j + b + this.height) % this.height));
                 }
             }
@@ -155,12 +155,10 @@ public class Grid {
         if(this.gameChoice == 3) {
             SchellingState.vacantCells.clear();
             SchellingState.numberVacantCells = 0;
-            for (int i = 0; i < this.width; i++) {
-                for(int j = 0; j < this.height; j++) {
-                    // TODO avoir une méthode is null ?
-                    if(this.getCell(i, j).getCurrentState().getValue() == 0){
-                        SchellingState.addVacantCell(this.getCell(i, j));
-                    }
+
+            for(Cell c : cellList){
+                if(c.getCurrentState().getValue() == 0){
+                    SchellingState.addVacantCell(c);
                 }
             }
         }
@@ -176,10 +174,12 @@ public class Grid {
                 this.getCell(i, j).calculate(this.getNeighbors(i, j));
             }
         }
+
         // updating :
         for(Cell c: this.cellList){
             c.update();
         }
+
     }
 
     @Override

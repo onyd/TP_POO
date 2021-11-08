@@ -25,14 +25,6 @@ public class SchellingState extends State{
     }
 
     /**
-     * set this state to i
-     * @param i
-     */
-    public void setState(int i){
-        this.value = i;
-    }
-
-    /**
      * add vacantCell to the list
      * @param vacantCell cell to add
      */
@@ -57,7 +49,7 @@ public class SchellingState extends State{
             }
 
             // condition to change the state :
-            if(nbNeighborsOfDifferentColor >= K) {
+            if(nbNeighborsOfDifferentColor >= K ) {
                 move();
             }
         }
@@ -68,15 +60,17 @@ public class SchellingState extends State{
      * (this cell become vacant)
      */
     private void move() {
-        // TODO si toutes les cases sont prises ???
+        // TODO si toutes les cases sont prises ??? --> raise error
         int r = Rand.rand(0, numberVacantCells - 1);
 
-        // vacantCells.get(r) become occupied
-        vacantCells.get(r).getNextState().copy(this);
+        // vacantCells.get(r) become occupied next step
+        vacantCells.get(r).getNextState().copy(this.motherCell.getNextState());
         vacantCells.remove(r);
 
         // this cell became free
         this.setState(0);
         vacantCells.add(motherCell);
+
+        System.out.println("size vacant cells : " + vacantCells.size());
     }
 }

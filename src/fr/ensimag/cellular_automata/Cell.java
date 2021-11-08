@@ -52,7 +52,8 @@ public class Cell{
             neighborsState.add(c.getCurrentState());
         }
 
-        //update of nextState with current neighbor state :
+        // update of nextState with current neighbor state :
+        // (each rules are apply in nextState)
         this.getNextState().nextState(neighborsState);
     }
 

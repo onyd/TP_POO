@@ -1,6 +1,7 @@
 package fr.ensimag.core;
 
 import fr.ensimag.cellular_automata.Case;
+
 import fr.ensimag.math.FPoint2D;
 import fr.ensimag.cellular_automata.Grid;
 
@@ -32,6 +33,7 @@ public class GridArea extends Area<Case> {
 				this.entities.add(new Case(new FPoint2D(i * caseSize, j * caseSize), caseSize, caseSize, g.getCell(i, j)));
 			}
 		}
+		this.updateCases();
 	}
 
 	/**
