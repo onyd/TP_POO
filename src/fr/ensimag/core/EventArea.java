@@ -14,5 +14,9 @@ public abstract class EventArea<T extends Entity> extends Area<T> {
 	public void addEvent(Event e) {
 		this.eventManger.addEvent(e);
 	}
+	
+	public long getDate() {
+		return this.eventManger.getDate();
+	}
 
 }

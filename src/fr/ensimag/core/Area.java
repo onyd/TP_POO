@@ -24,6 +24,7 @@ public abstract class Area<T extends Entity> implements Simulable {
 		for (Entity entity : getEntities()) {
 			gui.addGraphicalElement(entity);
 		}
+		
 	}
 
 	public int getWidth() {

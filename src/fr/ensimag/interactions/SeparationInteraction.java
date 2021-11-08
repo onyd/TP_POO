@@ -5,7 +5,7 @@ import fr.ensimag.boids.Agent;
 import fr.ensimag.boids.AgentGroup;
 import fr.ensimag.math.FVector2D;
 
-public class SeparationInteraction extends Interaction {
+public class SeparationInteraction extends ForceInteraction {
 	private float effectRadius;
 	
 	public SeparationInteraction(AgentGroup actors, float effectRadius, float multiplier, float clipping, float maxSpeed) {

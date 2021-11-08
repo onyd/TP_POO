@@ -7,7 +7,7 @@ import fr.ensimag.boids.Agent;
 import fr.ensimag.boids.AgentGroup;
 import fr.ensimag.math.FVector2D;
 
-public class TrackingInteraction extends Interaction {
+public class TrackingInteraction extends ForceInteraction {
 
 	public TrackingInteraction(AgentGroup actors, float multiplier, float clipping, float maxSpeed) {
 		super(actors, multiplier, clipping, maxSpeed);

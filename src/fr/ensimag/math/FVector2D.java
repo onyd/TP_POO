@@ -56,6 +56,12 @@ public class FVector2D {
 		this.div(norm());
 	}
 	
+	public FVector2D normalized() {
+		FVector2D result = new FVector2D(this);
+		result.normalize();
+		return result;
+	}
+	
 	public void clip(float norm) {
 		if (this.norm() > norm) {
 			this.normalize();

@@ -5,7 +5,7 @@ import fr.ensimag.boids.Agent;
 import fr.ensimag.boids.AgentGroup;
 import fr.ensimag.math.FVector2D;
 
-public class AlignmentInteraction extends Interaction {
+public class AlignmentInteraction extends ForceInteraction {
 
 	public AlignmentInteraction(AgentGroup actors, float multiplier, float clipping, float maxSpeed) {
 		super(actors, multiplier, clipping, maxSpeed);

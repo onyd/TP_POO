@@ -2,6 +2,10 @@ package fr.ensimag.boids;
 
 import java.awt.Color;
 
+import fr.ensimag.core.EventArea;
+import fr.ensimag.events.AddInteractionEvent;
+import fr.ensimag.events.Event;
+import fr.ensimag.interactions.EatInteraction;
 import fr.ensimag.interactions.SeparationInteraction;
 import fr.ensimag.interactions.TrackingInteraction;
 
@@ -18,6 +22,11 @@ public class PredatorGroup extends BoidGroup {
 	public void addPreyGroup(AgentGroup group) {
 		group.addInteraction(new SeparationInteraction(this, 20.0f, 1.0f, 1.4f, 5.0f));
 		this.addInteraction(new TrackingInteraction(group, 1.0f, 1.2f, 5.0f));
+	}
+
+	public void allowEating(AgentGroup group, EventArea<Agent> area, long delay) {
+		Event e = new AddInteractionEvent(area.getDate() + delay, this, new EatInteraction(group));
+		area.addEvent(e);
 	}
 
 }

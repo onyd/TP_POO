@@ -115,14 +115,16 @@ public class AgentGroup {
 				for (Agent b; it.hasNext();) {
 					b = it.next();
 					Pair<Integer, Integer> lastKey = this.getKey(b);
-					b.update();
-					this.clipPosition(b, area);
-
-					// Update Boids cell
-					Pair<Integer, Integer> key = this.getKey(b);
-					if (!lastKey.equals(key)) {
+					if (!b.update()) { // If it is dead
 						it.remove();
-						this.agentsGrid.get(key).add(b);
+					} else {
+						this.clipPosition(b, area);
+						// Update Boids cell
+						Pair<Integer, Integer> key = this.getKey(b);
+						if (!lastKey.equals(key)) {
+							it.remove();
+							this.agentsGrid.get(key).add(b);
+						}
 					}
 				}
 			}

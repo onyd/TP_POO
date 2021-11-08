@@ -10,6 +10,10 @@ public class EventManager {
 		this.currentDate = 0;
 		this.events = new PriorityQueue<>();
 	}
+	
+	public long getDate() {
+		return currentDate;
+	}
 
 	public void addEvent(Event e) {
 		this.events.add(e);
