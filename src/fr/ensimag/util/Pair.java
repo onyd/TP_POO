@@ -1,14 +1,31 @@
 package fr.ensimag.util;
 
+/**
+ * Represent an immutable pair of two elements
+ * @param <T1>
+ * @param <T2>
+ */
 public class Pair<T1 extends Comparable<T1>, T2 extends Comparable<T2>> implements Comparable<Pair<T1, T2>>{
+	/**
+	 * first element of the pair
+	 */
 	public final T1 first;
+	
+	/**
+	 * second element of the pair
+	 */
 	public final T2 second;
 	
+	/**
+	 * Create a pair 
+	 * @param first
+	 * @param second
+	 */
 	public Pair(T1 first, T2 second) {
 		this.first = first;
 		this.second = second;
 	}
-
+	
 	@Override
 	public int compareTo(Pair<T1, T2> p) {
 		if (this.first.compareTo(p.first) < 0) {
