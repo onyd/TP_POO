@@ -4,9 +4,27 @@ import java.util.List;
 import java.util.ArrayList;
 import fr.ensimag.math.MathUtil;
 
+/**
+ * Class which stores all cells in a grid (only calculation, no graphics)
+ */
 public class Grid {
+    /**
+     * grid size is 'width' cells by 'height' cells
+     */
     private final int width, height;
+
+    /**
+     * grid is represented as a list
+     * (but grid is interpreted as an 2D array)
+     */
     private final List<Cell> cellList;
+
+    /**
+     * choice of the game made when instantiate the grid :
+     * 1 : Conway
+     * 2 : Immigration
+     * 3 : Schelling
+     */
     private int gameChoice;
 
     public Grid(int width, int height, int gameChoice) {
@@ -14,94 +32,110 @@ public class Grid {
         this.height = height;
         this.gameChoice = gameChoice;
 
+        // set maximum value in each state :
         switch(gameChoice) {
-            case 1: // jeu de la vie
+            case 1: // Conway
                 State.nbState = 2;
                 break;
-            case 2: // jeu de l'immigration
+            case 2: // Immigration
                 State.nbState = 3;
                 break;
-            case 3: // Modle de Schelling
+            case 3: // Schelling
                 State.nbState = 4;
                 break;
             default:
-                throw new IllegalArgumentException("Jeu non séléctionnable...");
+                throw new IllegalArgumentException("Game not available ...");
         }
 
         cellList = new ArrayList<Cell>();
 
+        // set the cells into the grid :
         switch(gameChoice) {
-            case 1: // Jeu de la vie
-                System.out.println("Ajout de cellules de Conway");
+            case 1: // Conway
+                System.out.println("Add Conway cells");
                 break;
 
-            case 2: // Jeu de l'immigration
-                System.out.println("Ajout de cellules de l'immigration");
+            case 2: // Immigration
+                System.out.println("Add Immigration cells");
                 break;
 
-            case 3: // Modèle de Schelling
-                System.out.println("Ajout de cellules de Schelling");
+            case 3: // Schelling
+                System.out.println("Add Schelling cells");
                 break;
 
             default:
-                System.out.println("Jeu non séléctionnable...");
-                // TODO mettre une exception
-                break;
+                throw new IllegalArgumentException("Game not available ...");
         }
 
         for (int i = 0; i < this.width; i++) {
             for(int j = 0; j < this.height; j++) {
                 switch(gameChoice) {
-                    case 1: // jeu de la vie
-                        ConwayState currState = new ConwayState(MathUtil.rand(0, 1));
+                    case 1: // Conway
+                        // set the 3 states with the same value
+                        ConwayState currState = new ConwayState(Rand.rand(0, 1));
                         ConwayState nextState = new ConwayState(currState);
                         ConwayState initState = new ConwayState(currState);
                         Cell c = new Cell(currState, nextState, initState);
                         this.cellList.add(c);
                         break;
 
-                    case 2: // jeu de l'immigration
-                        ImmigrationState currState2 = new ImmigrationState(MathUtil.rand(0, State.nbState - 1));
+                    case 2: // Immigration
+                        ImmigrationState currState2 = new ImmigrationState(Rand.rand(0, State.nbState - 1));
                         ImmigrationState nextState2 = new ImmigrationState(currState2);
                         ImmigrationState initState2 = new ImmigrationState(currState2);
                         Cell c2 = new Cell(currState2, nextState2, initState2);
                         this.cellList.add(c2);
                         break;
 
-                    case 3: // Modle de Schelling
-                        int r = MathUtil.rand(0, State.nbState - 1);
-                        SchellingState currState3 = new SchellingState(MathUtil.rand(0, State.nbState - 1));
+                    case 3: // Schelling
+                        int r = Rand.rand(0, State.nbState - 1);
+                        SchellingState currState3 = new SchellingState(r);
                         SchellingState nextState3 = new SchellingState(currState3);
                         SchellingState initState3 = new SchellingState(currState3);
                         Cell c3 = new Cell(currState3, nextState3, initState3);
-                        // TODO, pas très joli de devoir link la cellule mère après ...
+
+                        // link the mother cell for each state :
+                        // (a state should be able to find back her mother cell
+                        //  to put it in the vacant list)
                         currState3.motherCell = c3;
                         nextState3.motherCell = c3;
                         initState3.motherCell = c3;
+
                         this.cellList.add(c3);
+
                         if (r == 0) SchellingState.addVacantCell(c3);
                         break;
 
                     default:
-                        System.out.println("Jeu non séléctionnable...");
-                        // TODO mettre une exception
-                        break;
+                        throw new IllegalArgumentException("Game not available ...");
                 }
             }
         }
     }
 
+    /**
+     * get the cell (i, j) of the grid
+     * @param i index i of the grid
+     * @param j index j of the grid
+     * @return requested cell
+     */
     public Cell getCell(int i, int j) {
         return this.cellList.get(i * width + j);
     }
 
+    /**
+     * return the list of cell in the Moore neighborhood
+     * @param i index i of the grid
+     * @param j index j of the grid
+     * @return list of cell in the Moore neighborhood
+     */
     private List<Cell> getNeighbors(int i, int j) {
         List<Cell> neighborsList = new ArrayList<Cell>();
         for(int a = -1; a <= 1; a++) {
             for(int b = -1; b <= 1; b++) {
                 if(!(a == 0 && b == 0)) {
-                    // l'espace de jeu est circulaire, une cellule
-                    // tout  gauche a une voisine tout  droite de la grille
+                    // game area is "circular", a cell on the left side
+                    // has a neighbor on the right side
                     neighborsList.add(this.getCell((i + a + this.width) %  this.width, (j + b + this.height) % this.height));
                 }
             }
@@ -109,6 +143,9 @@ public class Grid {
         return neighborsList;
     }
 
+    /**
+     * reset the grid with initial values everywhere
+     */
     public void restart() {
         for(Cell c : cellList){
             c.initCell();
@@ -118,28 +155,31 @@ public class Grid {
         if(this.gameChoice == 3) {
             SchellingState.vacantCells.clear();
             SchellingState.numberVacantCells = 0;
-            for (int i = 0; i < this.width; i++) {
-                for(int j = 0; j < this.height; j++) {
-                    // TODO avoir une méthode is null ?
-                    if(this.getCell(i, j).getCurrentState().getValue() == 0){
-                        SchellingState.addVacantCell(this.getCell(i, j));
-                    }
+
+            for(Cell c : cellList){
+                if(c.getCurrentState().getValue() == 0){
+                    SchellingState.addVacantCell(c);
                 }
             }
         }
     }
 
+    /**
+     * iteration one step forward
+     */
     public void iterate() {
-        /** calculating **/
+        // calculating next :
         for(int i = 0; i < this.width; i++){
             for(int j = 0; j < this.width; j++){
                 this.getCell(i, j).calculate(this.getNeighbors(i, j));
             }
         }
-        /** updating **/
+
+        // updating :
         for(Cell c: this.cellList){
             c.update();
         }
+
     }
 
     @Override

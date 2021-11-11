@@ -6,15 +6,28 @@ import java.awt.Graphics2D;
 import fr.ensimag.core.Entity;
 import fr.ensimag.math.FPoint2D;
 
+/**
+ * Class that managed the graphical part of a cell
+ * (linked calculation and graphics)
+ */
 public class Case extends Entity {
-	/** calcul **/
+	// calculation
+	/**
+	 * linked cell
+	 */
 	private Cell cell;
 
-	/** graphic **/
+	// graphic
 	private Color color;
 	private int width, height;
 
-	/** graphic **/
+	/**
+	 *
+	 * @param position position of the case
+	 * @param width width
+	 * @param height height
+	 * @param cell the cell that is linked with the case
+	 */
 	public Case(FPoint2D position, int width, int height, Cell cell) {
 		super(position);
 		this.width = width;
@@ -22,18 +35,24 @@ public class Case extends Entity {
 		this.cell = cell;
 	}
 
-	/** graphic **/
-	public void updateColor() {
+	/**
+	 * update the 'color' of the case
+	 */
+	public void updateColor(){
 		int currValue = this.cell.getCurrentState().getValue();
 		int maxValue = State.nbState - 1;
-		// by default : blue
 		// TODO moyen d'opti ici pour ne pas recrér à chaque fois ...
-		Color c = new Color((int) (255.0 * (1.0 - (float) currValue / maxValue)),
-				(int) (255.0 * (1.0 - (float) currValue / maxValue)), 255);
+
+		// create a range of color from white to blue for each state value
+		// (default color is blue)
+		Color c = new Color((int) (255.0 * (1.0 - (float) currValue / maxValue)), (int) (255.0 * (1.0 - (float) currValue / maxValue)),  255);
 		this.color = c;
 	}
 
-	/** graphic **/
+	/**
+	 * set color and fill the case
+	 * @param g2d
+	 */
 	@Override
 	public void paint(Graphics2D g2d) {
 		g2d.setColor(this.color);
