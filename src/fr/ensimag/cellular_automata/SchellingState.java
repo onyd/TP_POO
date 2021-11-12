@@ -7,20 +7,21 @@ import fr.ensimag.math.MathUtil;
 /**
  * Implements Schelling rules
  */
-public class SchellingState extends State{
+public class SchellingState extends State {
     /**
      * threshold for moving
      */
     private static int K = 3; // by default
     /**
-     * List of Cells which are vacant at currentState
+     * List of Cases which are vacant at currentState
      */
-    public static List<Cell> currentVacantCells = new ArrayList<Cell>();
+    public static List<Case> currentVacantCases = new ArrayList<Case>();
     /**
-     * List of Cells which are vacant at initialState
+     * List of Cases which are vacant at initialState
      */
-    public static List<Cell> initialVacantCells = new ArrayList<Cell>();
-    public Cell motherCell;
+    public static List<Case> initialVacantCases = new ArrayList<Case>();
+
+    public Case motherCase;
 
     public SchellingState(State s){
         super(s);
@@ -31,12 +32,12 @@ public class SchellingState extends State{
     }
 
     /**
-     * add a vacant Cell to the lists currentVacantCells and initialVacantCells
-     * @param vacantCell cell to add
+     * add a vacant Case to the lists currentVacantCases and initialVacantCases
+     * @param vacantCase case to add
      */
-    public static void addVacantCell(Cell vacantCell) {
-        currentVacantCells.add(vacantCell);
-        initialVacantCells.add(vacantCell);
+    public static void addVacantCase(Case vacantCase) {
+        currentVacantCases.add(vacantCase);
+        initialVacantCases.add(vacantCase);
     }
 
     /**
@@ -47,7 +48,7 @@ public class SchellingState extends State{
         if (this.getValue() != 0) {
             int nbNeighborsOfDifferentColor = 0;
 
-            // Count how many cells are different :
+            // Count how many neighbor cases are different :
             for (State s: neighborsList) {
                 if(s.getValue() != 0 && s.getValue() != this.getValue()) {
                     nbNeighborsOfDifferentColor++;
@@ -62,19 +63,19 @@ public class SchellingState extends State{
     }
 
     /**
-     * move this state in an other cell and free this cell
-     * (this cell become vacant)
+     * move this state in an other case and free this case
+     * (this case become vacant)
      */
     private void move() {
 
-        int r = MathUtil.rand(0, currentVacantCells.size() - 1);
-        // vacantCells.get(r) est la cellule qui devient habitée
-        currentVacantCells.get(r).getNextState().copy(this);
-        currentVacantCells.remove(r);
+        int r = MathUtil.rand(0, currentVacantCases.size() - 1);
+        // currentVacantCases.get(r) become occupied
+        currentVacantCases.get(r).getNextState().copy(this);
+        currentVacantCases.remove(r);
 
-        // this cell became free
+        // this case became free
         this.setState(0);
-        currentVacantCells.add(motherCell);
+        currentVacantCases.add(motherCase);
     }
 
 

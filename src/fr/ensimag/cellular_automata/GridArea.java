@@ -17,17 +17,10 @@ public abstract class GridArea extends Area<Case> {
 	 */
 	protected int caseSize;
 
-	/**
-	 * grid is represented as a list
-	 * (but grid is interpreted as an 2D array)
-	 */
-	protected List<Cell> cellList;
-
 	public GridArea(int width, int height, int caseSize) {
 		super(width, height);
 		this.caseSize = caseSize;
 		this.entities.ensureCapacity(width*height/caseSize/caseSize);
-		this.cellList = new ArrayList<Cell>();
 	}
 
 	/**
@@ -36,9 +29,9 @@ public abstract class GridArea extends Area<Case> {
 	 * @param j index j of the grid
 	 * @return requested cell
 	 */
-	public Cell getCell(int i, int j) {
+	public Case getCase(int i, int j) {
 		// TODO Fix index out of range for certain width and height
-		return this.cellList.get(i * super.width + j);
+		return this.entities.get(i * super.width + j);
 	}
 
 	/**
@@ -47,14 +40,14 @@ public abstract class GridArea extends Area<Case> {
 	 * @param j index j of the grid
 	 * @return list of cell in the Moore neighborhood
 	 */
-	private List<Cell> getNeighbors(int i, int j) {
-		List<Cell> neighborsList = new ArrayList<Cell>();
+	private List<Case> getNeighbors(int i, int j) {
+		List<Case> neighborsList = new ArrayList<Case>();
 		for(int a = -1; a <= 1; a++) {
 			for(int b = -1; b <= 1; b++) {
 				if(!(a == 0 && b == 0)) {
 					// game area is "circular", a cell on the left side
 					// has a neighbor on the right side
-					neighborsList.add(this.getCell((i + a + this.width) %  this.width, (j + b + this.height) % this.height));
+					neighborsList.add(this.getCase((i + a + this.width) %  this.width, (j + b + this.height) % this.height));
 				}
 			}
 		}
@@ -78,12 +71,12 @@ public abstract class GridArea extends Area<Case> {
 		// calculating next :
 		for(int i = 0; i < this.width; i++){
 			for(int j = 0; j < this.width; j++){
-				this.getCell(i, j).calculate(this.getNeighbors(i, j));
+				this.getCase(i, j).calculate(this.getNeighbors(i, j));
 			}
 		}
 
 		// updating current:
-		for(Cell c: this.cellList){
+		for(Case c: super.entities){
 			c.update();
 		}
 
@@ -95,13 +88,11 @@ public abstract class GridArea extends Area<Case> {
 	 */
 	@Override
 	public void restart() {
-		for(Cell c : cellList){
-			c.initCell();
+		for(Case c : super.entities){
+			c.initCase();
 		}
 
 		this.updateCases();
-
-		System.out.println(this.hashCode());
 	}
 
 	@Override
@@ -109,7 +100,7 @@ public abstract class GridArea extends Area<Case> {
 		String str = "";
 		for (int i = 0; i < this.width; i++) {
 			for(int j = 0; j < this.height; j++) {
-				str += this.getCell(i, j).getCurrentState().getValue() + " ";
+				str += this.getCase(i, j).getCurrentState().getValue() + " ";
 			}
 			str += "\n";
 		}
@@ -123,7 +114,7 @@ public abstract class GridArea extends Area<Case> {
 	@Override
 	public int hashCode() {
 		int hash = 1;
-		for(Cell c : cellList){
+		for(Case c : super.entities){
 			hash += (c.getCurrentState().getValue() * c.getNextState().getValue());
 		}
 		return hash;
