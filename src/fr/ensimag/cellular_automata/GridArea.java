@@ -1,40 +1,122 @@
 package fr.ensimag.cellular_automata;
 
-import fr.ensimag.core.Area;
-import fr.ensimag.math.FPoint2D;
+import fr.ensimag.cellular_automata.Case;
 
-public class GridArea extends Area<Case> {
+import fr.ensimag.core.Area;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Class that managed the graphical part of a grid
+ * (linked calculation and graphics)
+ */
+public abstract class GridArea extends Area<Case> {
+	/**
+	 * pixel size
+	 */
 	protected int caseSize;
-	private Grid g;
-	
-	public GridArea(int width, int height, int caseSize, int gameChoice) {
+
+	public GridArea(int width, int height, int caseSize) {
 		super(width, height);
-		this.g = new Grid( width/caseSize, height/caseSize, gameChoice);
 		this.caseSize = caseSize;
 		this.entities.ensureCapacity(width*height/caseSize/caseSize);
-
-		for (int i = 0; i < width/caseSize; i++) {
-			for (int j = 0; j < height/caseSize; j++) {
-				this.entities.add(new Case(new FPoint2D(i * caseSize, j * caseSize), caseSize, caseSize, g.getCell(i, j)));
-			}
-		}
 	}
 
-	private void updateCases(){
+	/**
+	 * get the cell (i, j) of the grid
+	 * @param i index i of the grid
+	 * @param j index j of the grid
+	 * @return requested cell
+	 */
+	public Case getCase(int i, int j) {
+		// TODO Fix index out of range for certain width and height
+		return this.entities.get(i * super.width + j);
+	}
+
+	/**
+	 * return the list of cell in the Moore neighborhood
+	 * @param i index i of the grid
+	 * @param j index j of the grid
+	 * @return list of cell in the Moore neighborhood
+	 */
+	private List<Case> getNeighbors(int i, int j) {
+		List<Case> neighborsList = new ArrayList<Case>();
+		for(int a = -1; a <= 1; a++) {
+			for(int b = -1; b <= 1; b++) {
+				if(!(a == 0 && b == 0)) {
+					// game area is "circular", a cell on the left side
+					// has a neighbor on the right side
+					neighborsList.add(this.getCase((i + a + this.width) %  this.width, (j + b + this.height) % this.height));
+				}
+			}
+		}
+		return neighborsList;
+	}
+
+	/**
+	 * update color of every case of this grid
+	 */
+	protected void updateCases(){
 		for(Case c: super.entities){
 			c.updateColor();
 		}
 	}
-	
+
+	/**
+	 * iteration one step forward
+	 */
 	@Override
 	public void next() {
-		g.iterate();
+		// calculating next :
+		for(int i = 0; i < this.width; i++){
+			for(int j = 0; j < this.width; j++){
+				this.getCase(i, j).calculate(this.getNeighbors(i, j));
+			}
+		}
+
+		// updating current:
+		for(Case c: super.entities){
+			c.update();
+		}
+
+		this.updateCases();
+	}
+
+	/**
+	 * reset the grid with initial values everywhere
+	 */
+	@Override
+	public void restart() {
+		for(Case c : super.entities){
+			c.initCase();
+		}
+
 		this.updateCases();
 	}
 
 	@Override
-	public void restart() {
-		g.restart();
-		this.updateCases();
+	public String toString() {
+		String str = "";
+		for (int i = 0; i < this.width; i++) {
+			for(int j = 0; j < this.height; j++) {
+				str += this.getCase(i, j).getCurrentState().getValue() + " ";
+			}
+			str += "\n";
+		}
+		return str;
+	}
+
+	/**
+	 * not really a hash function, but it helps to see if the game is well reseting
+	 * @return a pseudo hash
+	 */
+	@Override
+	public int hashCode() {
+		int hash = 1;
+		for(Case c : super.entities){
+			hash += (c.getCurrentState().getValue() * c.getNextState().getValue());
+		}
+		return hash;
 	}
 }

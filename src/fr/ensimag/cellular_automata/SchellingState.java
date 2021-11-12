@@ -4,11 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 import fr.ensimag.math.MathUtil;
 
-public class SchellingState extends State{
+/**
+ * Implements Schelling rules
+ */
+public class SchellingState extends State {
+    /**
+     * threshold for moving
+     */
     private static int K = 3; // by default
-    public static List<Cell> vacantCells = new ArrayList<Cell>();
-    public static int numberVacantCells = 0;
-    public Cell motherCell;
+    /**
+     * List of Cases which are vacant at currentState
+     */
+    public static List<Case> currentVacantCases = new ArrayList<Case>();
+    /**
+     * List of Cases which are vacant at initialState
+     */
+    public static List<Case> initialVacantCases = new ArrayList<Case>();
+
+    public Case motherCase;
 
     public SchellingState(State s){
         super(s);
@@ -18,43 +31,51 @@ public class SchellingState extends State{
         super(i);
     }
 
-    public void setState(int i){
-        this.value = i;
+    /**
+     * add a vacant Case to the lists currentVacantCases and initialVacantCases
+     * @param vacantCase case to add
+     */
+    public static void addVacantCase(Case vacantCase) {
+        currentVacantCases.add(vacantCase);
+        initialVacantCases.add(vacantCase);
     }
 
-    public static void addVacantCell(Cell vacantCell) {
-        vacantCells.add(vacantCell);
-        numberVacantCells++;
-    }
-
+    /**
+     * update this state with Schelling rules
+     * @param neighborsList Moore neighborhood of this state
+     */
     public void nextState(List<State> neighborsList){
         if (this.getValue() != 0) {
             int nbNeighborsOfDifferentColor = 0;
 
-            // Count how many cells are different
+            // Count how many neighbor cases are different :
             for (State s: neighborsList) {
                 if(s.getValue() != 0 && s.getValue() != this.getValue()) {
                     nbNeighborsOfDifferentColor++;
                 }
             }
 
-            if(nbNeighborsOfDifferentColor >= K) {
+            // condition to change the state :
+            if(nbNeighborsOfDifferentColor >= K ) {
                 move();
             }
         }
     }
 
+    /**
+     * move this state in an other case and free this case
+     * (this case become vacant)
+     */
     private void move() {
-        // TODO si toutes les cases sont prises ???
-        int r = MathUtil.rand(0, numberVacantCells - 1);
 
-        // vacantCells.get(r) est la cellule qui devient habitée
-        vacantCells.get(r).getNextState().copy(this);
-        vacantCells.remove(r);
+        int r = MathUtil.rand(0, currentVacantCases.size() - 1);
+        // currentVacantCases.get(r) become occupied
+        currentVacantCases.get(r).getNextState().copy(this);
+        currentVacantCases.remove(r);
 
-        // la cellule courante devient libre
+        // this case became free
         this.setState(0);
-        vacantCells.add(motherCell);
+        currentVacantCases.add(motherCase);
     }
 
 
