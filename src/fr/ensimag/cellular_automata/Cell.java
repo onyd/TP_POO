@@ -24,6 +24,7 @@ public class Cell{
      */
     public void initCell(){
         this.currentState.copy(this.initialState);
+        this.nextState.copy(this.initialState);
     }
 
     /**
