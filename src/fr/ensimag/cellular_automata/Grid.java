@@ -72,7 +72,7 @@ public class Grid {
                 switch(gameChoice) {
                     case 1: // Conway
                         // set the 3 states with the same value
-                        ConwayState currState = new ConwayState(Rand.rand(0, 1));
+                        ConwayState currState = new ConwayState(MathUtil.rand(0, 1));
                         ConwayState nextState = new ConwayState(currState);
                         ConwayState initState = new ConwayState(currState);
                         Cell c = new Cell(currState, nextState, initState);
@@ -80,19 +80,23 @@ public class Grid {
                         break;
 
                     case 2: // Immigration
-                        ImmigrationState currState2 = new ImmigrationState(Rand.rand(0, State.nbState - 1));
+                        ImmigrationState currState2 = new ImmigrationState(MathUtil.rand(0, State.nbState - 1));
                         ImmigrationState nextState2 = new ImmigrationState(currState2);
                         ImmigrationState initState2 = new ImmigrationState(currState2);
                         Cell c2 = new Cell(currState2, nextState2, initState2);
                         this.cellList.add(c2);
                         break;
 
-                    case 3: // Schelling
-                        int r = Rand.rand(0, State.nbState - 1);
-                        SchellingState currState3 = new SchellingState(r);
-                        SchellingState nextState3 = new SchellingState(currState3);
+
+                    case 3: // Modle de Schelling
+                        SchellingState currState3 = new SchellingState(MathUtil.rand(0, State.nbState - 1));
+                        SchellingState nextState3 = currState3;
                         SchellingState initState3 = new SchellingState(currState3);
+
+                        // Note that currState3 and nextState3 have same state
+                        // It is necessary to change the grid dynamically (see Cell.calculate() method)
                         Cell c3 = new Cell(currState3, nextState3, initState3);
+                        this.cellList.add(c3);
 
                         // link the mother cell for each state :
                         // (a state should be able to find back her mother cell
@@ -101,9 +105,10 @@ public class Grid {
                         nextState3.motherCell = c3;
                         initState3.motherCell = c3;
 
-                        this.cellList.add(c3);
+                        if (currState3.getValue() == 0) {
+                            SchellingState.addVacantCell(c3);
+                        }
 
-                        if (r == 0) SchellingState.addVacantCell(c3);
                         break;
 
                     default:
@@ -120,6 +125,7 @@ public class Grid {
      * @return requested cell
      */
     public Cell getCell(int i, int j) {
+        // TODO Fix index out of range for certain width and height
         return this.cellList.get(i * width + j);
     }
 
@@ -151,16 +157,10 @@ public class Grid {
             c.initCell();
         }
 
-        // TODO Faire une méthode autre ?
-        if(this.gameChoice == 3) {
-            SchellingState.vacantCells.clear();
-            SchellingState.numberVacantCells = 0;
-
-            for(Cell c : cellList){
-                if(c.getCurrentState().getValue() == 0){
-                    SchellingState.addVacantCell(c);
-                }
-            }
+        // Vacant cells must be changed for initial ones
+        if (this.gameChoice == 3){
+            SchellingState.currentVacantCells.clear();
+            SchellingState.currentVacantCells.addAll(SchellingState.initialVacantCells);
         }
     }
 

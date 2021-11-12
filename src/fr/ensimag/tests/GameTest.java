@@ -1,7 +1,6 @@
 package fr.ensimag.tests;
 
 import fr.ensimag.cellular_automata.GridArea;
-import fr.ensimag.core.GridArea;
 import gui.GUISimulator;
 import java.awt.*;
 
@@ -14,8 +13,8 @@ public class GameTest {
         // 1 : Conway
         // 2 : Immigration
         // 3 : Schelling
-        GridArea mainGridArea = new GridArea(500, 500, 10, 3);
-        GUISimulator gui = new GUISimulator(600, 400, Color.WHITE, mainGridArea);
+        GridArea mainGridArea = new GridArea(800, 800, 5, 3);
+        GUISimulator gui = new GUISimulator(1000, 1000, Color.WHITE, mainGridArea);
 
         mainGridArea.addGraphicalElementsTo(gui);
     }

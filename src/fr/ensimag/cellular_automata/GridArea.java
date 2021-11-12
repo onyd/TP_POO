@@ -19,7 +19,7 @@ public class GridArea extends Area<Case> {
 	 * associated grid (grid is the calculation parts)
 	 */
 	private Grid g;
-	
+
 	public GridArea(int width, int height, int caseSize, int gameChoice) {
 		super(width, height);
 		this.g = new Grid( width/caseSize, height/caseSize, gameChoice);
@@ -28,8 +28,8 @@ public class GridArea extends Area<Case> {
 
 		// fill the grid with Case :
 		// (each case is linked with a cell already created in grid g)
-		for (int i = 0; i < width/caseSize; i++) {
-			for (int j = 0; j < height/caseSize; j++) {
+		for (int i = 0; i < (width/caseSize); i++) {
+			for (int j = 0; j < (height/caseSize); j++) {
 				this.entities.add(new Case(new FPoint2D(i * caseSize, j * caseSize), caseSize, caseSize, g.getCell(i, j)));
 			}
 		}
