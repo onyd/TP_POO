@@ -7,67 +7,112 @@ import fr.ensimag.math.MathUtil;
 import fr.ensimag.math.FPoint2D;
 import fr.ensimag.math.FVector2D;
 
+/**
+ * Represents a moving entity which can be subjected to forces
+ *
+ */
 public class Agent extends Entity {
 	private FVector2D velocity;
 	private float radius;
-	private float maxRadius = 10.0f;
-	private float viewDistance;
-	private float fov;
-	private Color color;
+	public float maxRadius;
+	public float viewDistance;
+	public float fov;
+	public Color color;
 	private boolean alive = true;
 
-	public Agent(FPoint2D position, FVector2D velocity, float radius, float viewDistance, float fov, Color color) {
+	/**
+	 * Create an agent with specified caracteristics
+	 * 
+	 * @param position
+	 * @param velocity
+	 * @param radius
+	 * @param viewDistance
+	 * @param fov
+	 * @param color
+	 */
+	public Agent(FPoint2D position, FVector2D velocity, float radius, float maxRadius, float viewDistance, float fov,
+			Color color) {
 		super(position);
 		this.velocity = velocity;
 		this.radius = radius;
+		this.maxRadius = maxRadius;
 		this.viewDistance = viewDistance;
 		this.fov = MathUtil.radian(fov);
 		this.color = color;
 	}
 
+	/**
+	 * Velocity getter
+	 * 
+	 * @return velocity
+	 */
 	public FVector2D getVelocity() {
 		return velocity;
 	}
 
-	public boolean isAlive() {
-		return alive;
-	}
-
+	/**
+	 * radius getter
+	 * 
+	 * @return radius
+	 */
 	public float getRadius() {
 		return radius;
 	}
 
+	/**
+	 * radius setter
+	 * 
+	 * @param radius
+	 */
 	public void setRadius(float radius) {
 		this.radius = radius;
+		if (radius > maxRadius)
+			radius = maxRadius;
 	}
 
-	public float getMaxRadius() {
-		return maxRadius;
+	/**
+	 * Alive getter
+	 * 
+	 * @return true if alive
+	 */
+	public boolean isAlive() {
+		return alive;
 	}
 
-	public float getViewDistance() {
-		return viewDistance;
-	}
-
-	public float getFov() {
-		return fov;
-	}
-
+	/**
+	 * Set agent dead
+	 */
 	public void kill() {
 		this.alive = false;
 	}
 
+	/**
+	 * Apply Newton's law on the agent
+	 * 
+	 * @param force
+	 */
 	public void applyForce(FVector2D force) {
 		this.getVelocity().add(force);
 	}
 
+	/**
+	 * Move the agent according to its velocity for one step
+	 * 
+	 * @return true if still alive
+	 */
 	public boolean update() {
 		this.getPosition().translate(this.getVelocity());
 		return alive;
 	}
 
-	public boolean isViewing(Agent a) {
-		return MathUtil.isInView(a.getPosition(), this.getVelocity(), this.getPosition(), viewDistance, -fov, fov);
+	/**
+	 * Compute if an agent see another one
+	 * 
+	 * @param agent
+	 * @return true if this can see agent
+	 */
+	public boolean isViewing(Agent agent) {
+		return MathUtil.isInView(agent.getPosition(), this.getVelocity(), this.getPosition(), viewDistance, -fov, fov);
 	}
 
 	@Override

@@ -1,16 +1,34 @@
 package fr.ensimag.events;
 
+/**
+ * Represents an abstract discrete event which will be executed by the event
+ * manager
+ *
+ */
 public abstract class Event implements Comparable<Event> {
 	private long date;
 
+	/**
+	 * Have to be called in every child of this class to create an event
+	 * 
+	 * @param date
+	 */
 	public Event(long date) {
 		this.date = date;
 	}
 
+	/**
+	 * date getter
+	 * 
+	 * @return date
+	 */
 	public long getDate() {
 		return date;
 	}
 
+	/**
+	 * The method called when the event manager come to process the event
+	 */
 	public abstract void execute();
 
 	@Override

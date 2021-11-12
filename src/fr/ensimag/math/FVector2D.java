@@ -111,7 +111,7 @@ public class FVector2D {
 	public FVector2D normalized() {
 		FVector2D result = new FVector2D(this);
 		result.normalize();
-		return new FVector2D(result).normalized();
+		return new FVector2D(result);
 	}
 	
 	/**
