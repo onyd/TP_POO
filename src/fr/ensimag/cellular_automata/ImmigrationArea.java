@@ -3,6 +3,9 @@ package fr.ensimag.cellular_automata;
 import fr.ensimag.math.FPoint2D;
 import fr.ensimag.math.MathUtil;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 public class ImmigrationArea extends GridArea{
     public ImmigrationArea(int width, int height, int caseSize){
         super(width, height, caseSize);
@@ -18,6 +21,15 @@ public class ImmigrationArea extends GridArea{
                 Case c2 = new Case(new FPoint2D(i * caseSize, j * caseSize), caseSize, caseSize, currState2, nextState2, initState2);
                 super.entities.add(c2);
             }
+        }
+
+        // init listColors :
+        int maxValue = State.nbState - 1;
+        GridArea.listColors = new ArrayList<Color>();
+        for(int i = 0; i <= State.nbState - 1; i++){
+            int otherParam = (int) (255.0 * (1.0 - (float) i / maxValue));
+            Color c = new Color(otherParam, otherParam,  255);
+            GridArea.listColors.add(c);
         }
 
         super.updateCases();

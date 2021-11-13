@@ -30,7 +30,9 @@ public abstract class State {
 	 * @param i new state
 	 */
 	public void setState(int i){
-		// TODO raise error if i >= nbState
+		if(i >= State.nbState){
+			throw new IllegalArgumentException("max must be greater than min");
+		}
 		this.value = i;
 	}
 

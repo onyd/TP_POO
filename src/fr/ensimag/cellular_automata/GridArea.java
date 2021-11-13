@@ -4,6 +4,7 @@ import fr.ensimag.cellular_automata.Case;
 
 import fr.ensimag.core.Area;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,12 @@ public abstract class GridArea extends Area<Case> {
 	 * pixel size
 	 */
 	protected int caseSize;
+
+	/**
+	 * range of color from white to blue for each state value
+	 * (default color is blue)
+	 */
+	public static List<Color> listColors;
 
 	public GridArea(int width, int height, int caseSize) {
 		super(width, height);
@@ -30,8 +37,7 @@ public abstract class GridArea extends Area<Case> {
 	 * @return requested cell
 	 */
 	public Case getCase(int i, int j) {
-		// TODO Fix index out of range for certain width and height
-		return this.entities.get(i * super.width + j);
+		return this.entities.get(i * super.height + j);
 	}
 
 	/**
@@ -47,7 +53,9 @@ public abstract class GridArea extends Area<Case> {
 				if(!(a == 0 && b == 0)) {
 					// game area is "circular", a cell on the left side
 					// has a neighbor on the right side
-					neighborsList.add(this.getCase((i + a + this.width) %  this.width, (j + b + this.height) % this.height));
+					int newI = (i + a + this.width) %  this.width;
+					int newJ = (j + b + this.height) % this.height;
+					neighborsList.add(this.getCase(newI, newJ));
 				}
 			}
 		}
@@ -70,7 +78,7 @@ public abstract class GridArea extends Area<Case> {
 	public void next() {
 		// calculating next :
 		for(int i = 0; i < this.width; i++){
-			for(int j = 0; j < this.width; j++){
+			for(int j = 0; j < this.height; j++){
 				this.getCase(i, j).calculate(this.getNeighbors(i, j));
 			}
 		}
