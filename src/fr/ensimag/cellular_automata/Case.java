@@ -91,15 +91,7 @@ public class Case extends Entity {
 	 * update the 'color' of the case
 	 */
 	public void updateColor(){
-		int currValue = this.getCurrentState().getValue();
-		int maxValue = State.nbState - 1;
-		// TODO moyen d'opti ici pour ne pas recrér à chaque fois ...
-
-		// create a range of color from white to blue for each state value
-		// (default color is blue)
-		int otherParam = (int) (255.0 * (1.0 - (float) currValue / maxValue));
-		Color c = new Color(otherParam, otherParam,  255);
-		this.color = c;
+		this.color = GridArea.listColors.get(this.getCurrentState().getValue());
 	}
 
 	/**
