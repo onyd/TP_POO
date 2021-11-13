@@ -14,7 +14,7 @@ public class EatInteraction extends Interaction {
 	@Override
 	public void interaction(Agent target, List<Agent> actors) {
 		for (Agent a : actors) {
-			if (a.isAlive() && target.isViewing(a) && target.getRadius() < target.maxRadius) {
+			if (a.isAlive() && target.isViewing(a) && target.getRadius() < target.getMaxRadius()) {
 				a.kill();
 				target.setRadius(target.getRadius() + 1);
 			}

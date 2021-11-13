@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import fr.ensimag.core.Area;
 import fr.ensimag.interactions.Interaction;
+import fr.ensimag.math.FPoint2D;
+import fr.ensimag.math.FVector2D;
 import fr.ensimag.util.BiDimensionalArray;
 import fr.ensimag.util.Pair;
 
@@ -32,15 +34,15 @@ public class AgentGroup {
 	 * Create a group of agent with the corresponding characteristics
 	 * 
 	 * @param updateStep          the number of step between updates
-	 * @param agentNumber         how many agents are in the group
+	 * @param initialAgentNumber  how many agents are in the group
 	 * @param initialRadius       the initial radius of all agents
 	 * @param initialMaxRadius    the initial max radius of all agents
 	 * @param initialViewDistance the initial viewDistance of all agents
 	 * @param initialFov          the initial fov of all agents
 	 * @param initialColor        the initial color of all agents
 	 */
-	public AgentGroup(int updateStep, int agentNumber, float initialRadius, float initialMaxRadius,
-			float initialViewDistance, float initialFov, float initialMaxSpeed, Color initialColor) {
+	public AgentGroup(int updateStep, int initialAgentNumber, float initialRadius, float initialMaxRadius,
+			float initialViewDistance, float initialFov, float initialMaxSpeed, Color initialColor, AgentArea area) {
 		this.initialRadius = initialRadius;
 		this.initialMaxRadius = initialMaxRadius;
 		this.initialViewDistance = initialViewDistance;
@@ -48,10 +50,25 @@ public class AgentGroup {
 		this.initialMaxSpeed = initialMaxSpeed;
 		this.initialColor = initialColor;
 		this.updateStep = updateStep;
-		this.agentNumber = agentNumber;
+		this.agentNumber = initialAgentNumber;
 
 		this.interactions = new ArrayList<>();
 
+		// Setup the grid cell
+		int width = (int) (area.getWidth() / initialViewDistance);
+		int height = (int) (area.getHeight() / initialViewDistance);
+		this.agentsGrid = new BiDimensionalArray<>(width, height);
+
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				this.agentsGrid.set(i, j, new ArrayList<Agent>());
+			}
+		}
+
+		for (int k = 0; k < agentNumber; k++) {
+			this.add(new Agent(new FPoint2D(0.0f, 0.0f), new FVector2D(initialMaxSpeed, 0.0f), initialMaxSpeed,
+					initialRadius, initialMaxRadius, initialViewDistance, initialFov, initialColor));
+		}
 	}
 
 	/**
@@ -59,7 +76,7 @@ public class AgentGroup {
 	 * 
 	 * @return agentNumber
 	 */
-	public int getAgentNumber() {
+	public int getInitialAgentNumber() {
 		return agentNumber;
 	}
 
@@ -216,42 +233,78 @@ public class AgentGroup {
 	 * @param area
 	 */
 	public void update(Area<Agent> area) {
+		List<Pair<Integer, Integer>> lastKeys = new ArrayList<>();
+		List<Agent> toUpdateKey = new ArrayList<>();
+
 		for (int i = 0; i < agentsGrid.getHeight(); i++) {
 			for (int j = 0; j < agentsGrid.getWidth(); j++) {
-				Iterator<Agent> it = this.agentsGrid.get(i, j).iterator();
-				for (Agent agent; it.hasNext();) {
-					agent = it.next();
-					Pair<Integer, Integer> lastKey = this.getKey(agent);
-					if (!agent.update()) { // If it is dead
-						it.remove();
-					} else {
+				for (Agent agent : this.agentsGrid.get(i, j)) {
+					if (agent.isAlive()) {
+						agent.update();
 						this.clipPosition(agent, area);
-						// Update Boids cell
-						Pair<Integer, Integer> key = this.getKey(agent);
-						if (!lastKey.equals(key)) {
-							it.remove();
-							this.agentsGrid.get(key).add(agent);
+
+						Pair<Integer, Integer> lastKey = new Pair<Integer, Integer>(i, j);
+						if (!lastKey.equals(this.getKey(agent))) {
+							toUpdateKey.add(agent);
+							lastKeys.add(lastKey);
 						}
 					}
 				}
 			}
 		}
+
+		this.updatekeys(lastKeys, toUpdateKey);
 	}
 
 	/**
-	 * Initialize the group
+	 * Initialize the empty group
 	 * 
 	 * @param area
 	 */
-	public void setup(AgentArea area) {
-		int width = (int) (area.getWidth() / initialViewDistance);
-		int height = (int) (area.getHeight() / initialViewDistance);
-		this.agentsGrid = new BiDimensionalArray<>(width, height);
+	public void restart(List<FPoint2D> positions, List<FVector2D> velocities, AgentArea area) {
 
-		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < width; j++) {
-				this.agentsGrid.set(i, j, new ArrayList<Agent>());
+		List<Agent> agents = this.getAgents();
+		for (int k = 0; k < agentNumber; k++) {
+			agents.get(k).setPosition(positions.get(k));
+			agents.get(k).setVelocity(velocities.get(k));
+			agents.get(k).setRadius(initialRadius);
+			agents.get(k).setMaxRadius(initialMaxRadius);
+			agents.get(k).setViewDistance(initialViewDistance);
+			agents.get(k).setFov(initialFov);
+			agents.get(k).setColor(initialColor);
+			agents.get(k).revive();
+		}
+
+		// Re-organize agents in their corresponding cell
+		List<Pair<Integer, Integer>> lastKeys = new ArrayList<>();
+		List<Agent> toUpdateKey = new ArrayList<>();
+
+		for (int i = 0; i < agentsGrid.getHeight(); i++) {
+			for (int j = 0; j < agentsGrid.getWidth(); j++) {
+				for (Agent agent : this.agentsGrid.get(i, j)) {
+					Pair<Integer, Integer> lastKey = new Pair<Integer, Integer>(i, j);
+					if (!lastKey.equals(this.getKey(agent))) {
+						toUpdateKey.add(agent);
+						lastKeys.add(lastKey);
+					}
+				}
 			}
+		}
+
+		this.updatekeys(lastKeys, toUpdateKey);
+	}
+
+	/**
+	 * Change the agents last cell to their corresponding cell
+	 * 
+	 * @param lastKeys
+	 * @param toUpdateKey
+	 */
+	private void updatekeys(List<Pair<Integer, Integer>> lastKeys, List<Agent> toUpdateKey) {
+		for (int i = 0; i < toUpdateKey.size(); i++) {
+			Agent agent = toUpdateKey.get(i);
+			this.agentsGrid.get(lastKeys.get(i)).remove(agent);
+			this.agentsGrid.get(this.getKey(agent)).add(agent);
 		}
 	}
 
@@ -275,19 +328,36 @@ public class AgentGroup {
 	}
 
 	/**
-	 * Compute the neighboors agents for a given cell
+	 * Compute the living neighboors agents for a given cell
 	 * 
 	 * @param cell
 	 * @return the neighboors agents as a List of Agent
 	 */
-	public List<Agent> getNeighboors(Pair<Integer, Integer> cell) {
+	public List<Agent> getLivingNeighboors(Pair<Integer, Integer> cell) {
 		List<Agent> neighboors = new ArrayList<>();
 		for (Pair<Integer, Integer> key : this.getNeighboorsRegions(cell)) {
 			for (Agent neighboor : agentsGrid.get(key)) {
-				neighboors.add(neighboor);
+				if (neighboor.isAlive())
+					neighboors.add(neighboor);
 			}
 		}
 		return neighboors;
+	}
+
+	/**
+	 * Compute all living agents in the group
+	 * 
+	 * @return agents as a List of Agent
+	 */
+	public List<Agent> getLivingAgents() {
+		// Build an iterator over all Boids of neighboor cells
+		List<Agent> agents = this.getAgents();
+		for (Iterator<Agent> it = agents.iterator(); it.hasNext();) {
+			Agent agent = it.next();
+			if (!agent.isAlive())
+				it.remove();
+		}
+		return agents;
 	}
 
 	/**

@@ -46,5 +46,13 @@ public abstract class Entity implements GraphicalElement {
 	public FPoint2D getPosition() {
 		return position;
 	}
+	
+	/**
+	 * position setter
+	 * @param position
+	 */
+	public void setPosition(FPoint2D position) {
+		this.position = position;
+	}
 
 }

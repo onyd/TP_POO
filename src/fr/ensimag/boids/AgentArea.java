@@ -1,6 +1,7 @@
 package fr.ensimag.boids;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import fr.ensimag.core.EventArea;
@@ -40,29 +41,63 @@ public class AgentArea extends EventArea<Agent> {
 	 */
 	public void addGroup(AgentGroup group) {
 		this.groups.add(group);
+		for (Agent agent : group.getLivingAgents()) {
+			this.entities.add(agent);
+		}
 	}
 
-	@Override
-	public void restart() {
-		this.entities.clear();
+	/**
+	 * Compute all initial positions for the group of agents
+	 * 
+	 * @param group
+	 * @return positions as a List of points
+	 */
+	private List<FPoint2D> getInitialPositions(AgentGroup group) {
+		List<FPoint2D> positions = new ArrayList<>();
+
+		for (int i = 0; i < group.getInitialAgentNumber(); i++) {
+			Random r = new Random();
+			positions.add(new FPoint2D(width / 2.0f + (2 * r.nextFloat() - 1.0f),
+					height / 2.0f + (2 * r.nextFloat() - 1.0f)));
+
+		}
+		return positions;
+	}
+
+	/**
+	 * Copute all initial velocities for the group of agents
+	 * 
+	 * @param group
+	 * @return velocities as List of vectors
+	 */
+	private List<FVector2D> getInitialVelocities(AgentGroup group) {
+		List<FVector2D> velocities = new ArrayList<>();
+		for (int i = 0; i < group.getInitialAgentNumber(); i++) {
+			velocities.add(new FVector2D(4.0f, 2.0f));
+		}
+		return velocities;
+	}
+
+	/**
+	 * Setup the groups and begin the simulation
+	 */
+	public void start() {
+		// Setup all groups in the area
 		for (AgentGroup group : groups) {
-			group.setup(this);
-			for (int i = 0; i < group.getAgentNumber(); i++) {
-				Random r = new Random();
-				FPoint2D position = new FPoint2D(width / 2.0f + (2 * r.nextFloat() - 1.0f),
-						height / 2.0f + (2 * r.nextFloat() - 1.0f));
-				FVector2D velocity = new FVector2D(4.0f, 2.0f);
-				Agent agent = new Agent(position, velocity, group.getInitialRadius(), group.getInitialMaxRadius(),
-						group.getInitialViewDistance(), group.getInitialFov(), group.getInitialColor());
+			group.restart(this.getInitialPositions(group), this.getInitialVelocities(group), this);
 
-				// Add agent both in the group for interactions and in entities for enabling
-				// graphic display
-				group.add(agent);
-				this.entities.add(agent);
-
-			}
+			// The event to launch the simulation
 			this.addEvent(new AgentGroupUpdateEvent(0, group.getUpdateStep(), group, this, optimized));
 		}
+	}
+
+	/**
+	 * Restart the simulation
+	 */
+	@Override
+	public void restart() {
+		this.eventManger.restart();
+		this.start();
 	}
 
 }

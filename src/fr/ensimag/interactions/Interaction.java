@@ -37,7 +37,7 @@ public abstract class Interaction {
 	 * @param targets
 	 */
 	public void apply(ArrayList<Agent> targets) {
-		List<Agent> agents = actors.getAgents();
+		List<Agent> agents = actors.getLivingAgents();
 		for (Agent target : targets)
 			this.interaction(target, agents);
 	}
@@ -49,7 +49,7 @@ public abstract class Interaction {
 	 * @param key
 	 */
 	public void applyOptimized(ArrayList<Agent> targets, Pair<Integer, Integer> key) {
-		List<Agent> neighboors = actors.getNeighboors(key);
+		List<Agent> neighboors = actors.getLivingNeighboors(key);
 		for (Agent target : targets)
 			this.interaction(target, neighboors);
 	}

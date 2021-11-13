@@ -22,11 +22,12 @@ public class BoidGroup extends AgentGroup {
 	 * @param initialFov
 	 * @param initialMaxSpeed
 	 * @param initialColor
+	 * @param area
 	 */
 	public BoidGroup(int updateStep, int agentNumber, float initialRadius, float initialMaxradius,
-			float initialViewDistance, float initialFov, float initialMaxSpeed, Color initialColor) {
+			float initialViewDistance, float initialFov, float initialMaxSpeed, Color initialColor, AgentArea area) {
 		super(updateStep, agentNumber, initialRadius, initialMaxradius, initialViewDistance, initialFov,
-				initialMaxSpeed, initialColor);
+				initialMaxSpeed, initialColor, area);
 
 		this.addInteraction(new CohesionForce(this, 1.0f, 0.4f, initialMaxSpeed));
 		this.addInteraction(new AlignmentForce(this, 1.0f, 0.5f, initialMaxSpeed));

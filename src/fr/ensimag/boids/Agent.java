@@ -13,11 +13,12 @@ import fr.ensimag.math.FVector2D;
  */
 public class Agent extends Entity {
 	private FVector2D velocity;
+	private float maxSpeed;
 	private float radius;
-	public float maxRadius;
-	public float viewDistance;
-	public float fov;
-	public Color color;
+	private float maxRadius;
+	private float viewDistance;
+	private float fov;
+	private Color color;
 	private boolean alive = true;
 
 	/**
@@ -25,15 +26,17 @@ public class Agent extends Entity {
 	 * 
 	 * @param position
 	 * @param velocity
+	 * @param maxSpeed
 	 * @param radius
 	 * @param viewDistance
 	 * @param fov
 	 * @param color
 	 */
-	public Agent(FPoint2D position, FVector2D velocity, float radius, float maxRadius, float viewDistance, float fov,
-			Color color) {
+	public Agent(FPoint2D position, FVector2D velocity, float maxSpeed, float radius, float maxRadius,
+			float viewDistance, float fov, Color color) {
 		super(position);
 		this.velocity = velocity;
+		this.maxSpeed = maxSpeed;
 		this.radius = radius;
 		this.maxRadius = maxRadius;
 		this.viewDistance = viewDistance;
@@ -48,6 +51,11 @@ public class Agent extends Entity {
 	 */
 	public FVector2D getVelocity() {
 		return velocity;
+	}
+
+	public void setVelocity(FVector2D velocity) {
+		this.velocity = velocity;
+		velocity.clip(maxSpeed);
 	}
 
 	/**
@@ -71,6 +79,102 @@ public class Agent extends Entity {
 	}
 
 	/**
+	 * Max speed getter
+	 * 
+	 * @return maxSpeed
+	 */
+	public float getMaxSpeed() {
+		return maxSpeed;
+	}
+
+	/**
+	 * Max speed setter
+	 * 
+	 * @param maxSpeed
+	 */
+	public void setMaxSpeed(float maxSpeed) {
+		this.maxSpeed = maxSpeed;
+	}
+
+	/**
+	 * Max radius getter
+	 * 
+	 * @return maxRadius
+	 */
+	public float getMaxRadius() {
+		return maxRadius;
+	}
+
+	/**
+	 * Max radius setter
+	 * 
+	 * @param maxRadius
+	 */
+	public void setMaxRadius(float maxRadius) {
+		this.maxRadius = maxRadius;
+	}
+
+	/**
+	 * View distance getter
+	 * 
+	 * @return viewDistance
+	 */
+	public float getViewDistance() {
+		return viewDistance;
+	}
+
+	/**
+	 * View distance setter
+	 * 
+	 * @param viewDistance
+	 */
+	public void setViewDistance(float viewDistance) {
+		this.viewDistance = viewDistance;
+	}
+
+	/**
+	 * FOV getter
+	 * 
+	 * @return fov
+	 */
+	public float getFov() {
+		return fov;
+	}
+
+	/**
+	 * FOV setter
+	 * 
+	 * @param fov
+	 */
+	public void setFov(float fov) {
+		this.fov = fov;
+		while (fov > 360) {
+			fov -= 360;
+		}
+		while (fov < 0) {
+			fov += 360;
+		}
+	}
+
+	/**
+	 * Color getter
+	 * 
+	 * @return color
+	 */
+	public Color getColor() {
+		return color;
+	}
+
+	/**
+	 * Color setter
+	 * 
+	 * @param color
+	 */
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
+	/**
 	 * Alive getter
 	 * 
 	 * @return true if alive
@@ -85,6 +189,13 @@ public class Agent extends Entity {
 	public void kill() {
 		this.alive = false;
 	}
+	
+	/**
+	 * Set agent alive
+	 */
+	public void revive() {
+		this.alive = true;
+	}
 
 	/**
 	 * Apply Newton's law on the agent
@@ -92,7 +203,9 @@ public class Agent extends Entity {
 	 * @param force
 	 */
 	public void applyForce(FVector2D force) {
-		this.getVelocity().add(force);
+		FVector2D newVelocity = this.getVelocity();
+		newVelocity.add(force);
+		this.setVelocity(newVelocity);
 	}
 
 	/**
@@ -100,9 +213,8 @@ public class Agent extends Entity {
 	 * 
 	 * @return true if still alive
 	 */
-	public boolean update() {
+	public void update() {
 		this.getPosition().translate(this.getVelocity());
-		return alive;
 	}
 
 	/**
@@ -112,7 +224,7 @@ public class Agent extends Entity {
 	 * @return true if this can see agent
 	 */
 	public boolean isViewing(Agent agent) {
-		return MathUtil.isInView(agent.getPosition(), this.getVelocity(), this.getPosition(), viewDistance, -fov, fov);
+		return MathUtil.isInView(agent.getPosition(), this.getVelocity(), this.getPosition(), viewDistance, -fov/2, fov/2);
 	}
 
 	@Override

@@ -26,13 +26,14 @@ public class PredatorGroup extends BoidGroup {
 	 * @param initialFov
 	 * @param initialMaxSpeed
 	 * @param initialColor
+	 * @param area
 	 * @param preyGroups
 	 */
 	public PredatorGroup(int updateStep, int agentNumber, float initialRadius, float initialMaxRadius,
-			float initialViewDistance, float initialFov, float initialMaxSpeed, Color initialColor,
+			float initialViewDistance, float initialFov, float initialMaxSpeed, Color initialColor, AgentArea area,
 			AgentGroup... preyGroups) {
 		super(updateStep, agentNumber, initialRadius, initialMaxRadius, initialViewDistance, initialFov,
-				initialMaxSpeed, initialColor);
+				initialMaxSpeed, initialColor, area);
 		for (AgentGroup preys : preyGroups) {
 			this.addPreyGroup(preys);
 		}
@@ -44,8 +45,8 @@ public class PredatorGroup extends BoidGroup {
 	 * @param group
 	 */
 	public void addPreyGroup(AgentGroup group) {
-		group.addInteraction(new SeparationForce(this, 20.0f, 1.0f, 1.4f, 5.0f));
-		this.addInteraction(new TrackingForce(group, 1.0f, 1.2f, 5.0f));
+		group.addInteraction(new SeparationForce(this, 20.0f, 1.0f, 1.4f, initialMaxSpeed));
+		this.addInteraction(new TrackingForce(group, 1.0f, 1.2f, initialMaxSpeed));
 	}
 
 	/**
