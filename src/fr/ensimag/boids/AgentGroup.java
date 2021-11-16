@@ -72,7 +72,7 @@ public class AgentGroup {
 	}
 
 	/**
-	 * agent number getter
+	 * Agent number getter
 	 * 
 	 * @return agentNumber
 	 */
@@ -81,7 +81,7 @@ public class AgentGroup {
 	}
 
 	/**
-	 * initial radius getter
+	 * Initial radius getter
 	 * 
 	 * @return initialNumber
 	 */
@@ -90,7 +90,7 @@ public class AgentGroup {
 	}
 
 	/**
-	 * initial max radius getter
+	 * Initial max radius getter
 	 * 
 	 * @return initialMaxRadius
 	 */
@@ -99,7 +99,7 @@ public class AgentGroup {
 	}
 
 	/**
-	 * initial view distance getter
+	 * Initial view distance getter
 	 * 
 	 * @return initialViewDistance
 	 */
@@ -108,7 +108,7 @@ public class AgentGroup {
 	}
 
 	/**
-	 * initial fov getter
+	 * Initial fov getter
 	 * 
 	 * @return initialFov
 	 */
@@ -117,7 +117,7 @@ public class AgentGroup {
 	}
 
 	/**
-	 * initial color getter
+	 * Initial color getter
 	 * 
 	 * @return initialColor
 	 */
@@ -126,12 +126,20 @@ public class AgentGroup {
 	}
 
 	/**
-	 * update step getter
+	 * Update step getter
 	 * 
 	 * @return updateStep
 	 */
 	public int getUpdateStep() {
 		return updateStep;
+	}
+
+	/**
+	 * Initial max speed getter
+	 * @return
+	 */
+	public float getInitialMaxSpeed() {
+		return initialMaxSpeed;
 	}
 
 	/**

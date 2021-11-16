@@ -32,8 +32,21 @@ public class AgentArea extends EventArea<Agent> {
 
 		this.groups = new ArrayList<>();
 		this.optimized = optimized;
+		
+		if (optimized)
+			respectOptimizedRestrictions();
 	}
 
+	private void respectOptimizedRestrictions() {
+		for (int i = 0; i < groups.size() - 1; i++) {
+			AgentGroup a = groups.get(i);
+			AgentGroup b = groups.get(i+1);
+			if (a.getInitialViewDistance() != b.getInitialViewDistance()) {
+				throw new AssertionError("In optimized mode all groups must have the same view distance");
+			}
+		}
+	}
+	
 	/**
 	 * Add an group of agents
 	 * 

@@ -1,6 +1,7 @@
-package fr.ensimag.balls;
+package fr.ensimag.tests;
 
 import java.awt.Color;
+import fr.ensimag.balls.BallsSimulator;
 import gui.*;
 
 /**
