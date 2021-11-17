@@ -17,8 +17,8 @@ public class BoidsTest {
 		PredatorGroup predators = new PredatorGroup(1, 50, r, 2*r, 40.0f, 360.0f, maxSpeed, Color.ORANGE, area, preys1, preys2);
 		area.addGroup(preys1);
 		area.addGroup(preys2);
-		preys1.addInteraction(new SeparationForce(preys2, preys1.getInitialRadius(), 1.0f, 1.1f, maxSpeed));
-		preys2.addInteraction(new SeparationForce(preys1, preys2.getInitialRadius(), 1.0f, 1.1f, maxSpeed));
+		preys1.addInteraction(new SeparationForce(preys2, preys1.getInitialRadius(), 1.0f, 1.1f));
+		preys2.addInteraction(new SeparationForce(preys1, preys2.getInitialRadius(), 1.0f, 1.1f));
 		area.addGroup(predators);
 		predators.allowEating(preys1, area, 15);
 		area.start();

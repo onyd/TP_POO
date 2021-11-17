@@ -5,11 +5,23 @@ import fr.ensimag.boids.Agent;
 import fr.ensimag.boids.AgentGroup;
 import fr.ensimag.math.FVector2D;
 
+/**
+ * Represents an force interaction that apply a separation behaviour of targets
+ * and actors
+ *
+ */
 public class SeparationForce extends ForceInteraction {
 	private float effectRadius;
-	
-	public SeparationForce(AgentGroup actors, float effectRadius, float multiplier, float clipping, float maxSpeed) {
-		super(actors, multiplier, clipping, maxSpeed);
+
+	/**
+	 * Create an separation force interaction
+	 * 
+	 * @param actors
+	 * @param multiplier
+	 * @param clipping
+	 */
+	public SeparationForce(AgentGroup actors, float effectRadius, float multiplier, float clipping) {
+		super(actors, multiplier, clipping);
 		this.effectRadius = effectRadius;
 	}
 

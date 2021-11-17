@@ -5,8 +5,19 @@ import java.util.List;
 import fr.ensimag.boids.Agent;
 import fr.ensimag.boids.AgentGroup;
 
+/**
+ * Represents an interaction that makes targets eat the actors (ie kill them and increase the radius)
+ *
+ */
 public class EatInteraction extends Interaction {
 
+	/**
+	 * Create an eat interaction 
+	 * @param actors
+	 * @param multiplier
+	 * @param clipping
+	 * @param maxSpeed
+	 */
 	public EatInteraction(AgentGroup actors) {
 		super(actors);
 	}

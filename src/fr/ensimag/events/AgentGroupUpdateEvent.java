@@ -16,7 +16,7 @@ public class AgentGroupUpdateEvent extends Event {
 	private int updateStep;
 
 	/**
-	 * Create the event which will do the step
+	 * Create the event which will execute one step of simulation to the group
 	 * 
 	 * @param date
 	 * @param updateStep

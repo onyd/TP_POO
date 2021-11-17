@@ -5,10 +5,22 @@ import fr.ensimag.boids.Agent;
 import fr.ensimag.boids.AgentGroup;
 import fr.ensimag.math.FVector2D;
 
+/**
+ * Represents an force interaction that apply a cohesion behaviour of targets
+ * and actors
+ *
+ */
 public class CohesionForce extends ForceInteraction {
 
-	public CohesionForce(AgentGroup actors, float multiplier, float clipping, float maxSpeed) {
-		super(actors, multiplier, clipping, maxSpeed);
+	/**
+	 * Create an cohesion force interaction
+	 * 
+	 * @param actors
+	 * @param multiplier
+	 * @param clipping
+	 */
+	public CohesionForce(AgentGroup actors, float multiplier, float clipping) {
+		super(actors, multiplier, clipping);
 	}
 
 	@Override

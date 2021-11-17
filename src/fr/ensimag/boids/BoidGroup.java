@@ -29,9 +29,9 @@ public class BoidGroup extends AgentGroup {
 		super(updateStep, agentNumber, initialRadius, initialMaxradius, initialViewDistance, initialFov,
 				initialMaxSpeed, initialColor, area);
 
-		this.addInteraction(new CohesionForce(this, 1.0f, 0.4f, initialMaxSpeed));
-		this.addInteraction(new AlignmentForce(this, 1.0f, 0.5f, initialMaxSpeed));
-		this.addInteraction(new SeparationForce(this, initialRadius, 1.0f, 1.1f, initialMaxSpeed));
+		this.addInteraction(new CohesionForce(this, 1.0f, 0.4f));
+		this.addInteraction(new AlignmentForce(this, 1.0f, 0.5f));
+		this.addInteraction(new SeparationForce(this, initialRadius, 1.0f, 1.1f));
 	}
 
 }

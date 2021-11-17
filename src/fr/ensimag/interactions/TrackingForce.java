@@ -7,10 +7,22 @@ import fr.ensimag.boids.Agent;
 import fr.ensimag.boids.AgentGroup;
 import fr.ensimag.math.FVector2D;
 
+/**
+ * Represents an force interaction that apply a tracking of actors by target
+ * behaviour
+ *
+ */
 public class TrackingForce extends ForceInteraction {
 
-	public TrackingForce(AgentGroup actors, float multiplier, float clipping, float maxSpeed) {
-		super(actors, multiplier, clipping, maxSpeed);
+	/**
+	 * Create an tracking force interaction
+	 * 
+	 * @param actors
+	 * @param multiplier
+	 * @param clipping
+	 */
+	public TrackingForce(AgentGroup actors, float multiplier, float clipping) {
+		super(actors, multiplier, clipping);
 	}
 
 	@Override

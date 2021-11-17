@@ -5,10 +5,20 @@ import fr.ensimag.boids.Agent;
 import fr.ensimag.boids.AgentGroup;
 import fr.ensimag.math.FVector2D;
 
+/**
+ * Represents an force interaction that apply an alignment behaviour of targets' velocity vector with actors' ones 
+ *
+ */
 public class AlignmentForce extends ForceInteraction {
 
-	public AlignmentForce(AgentGroup actors, float multiplier, float clipping, float maxSpeed) {
-		super(actors, multiplier, clipping, maxSpeed);
+	/**
+	 * Create an alignment force interaction 
+	 * @param actors
+	 * @param multiplier
+	 * @param clipping
+	 */
+	public AlignmentForce(AgentGroup actors, float multiplier, float clipping) {
+		super(actors, multiplier, clipping);
 	}
 
 	@Override

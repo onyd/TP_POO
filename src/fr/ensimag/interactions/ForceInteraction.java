@@ -14,19 +14,19 @@ import fr.ensimag.math.FVector2D;
 public abstract class ForceInteraction extends Interaction {
 	private float multiplier;
 	private float clipping;
-	private float maxSpeed;
 
 	/**
-	 * Initialize the attributes
+	 * Initializes attributes
 	 * 
 	 * @param actors
+	 * @param multiplier
+	 * @param clipping
 	 */
-	public ForceInteraction(AgentGroup actors, float multiplier, float clipping, float maxSpeed) {
+	public ForceInteraction(AgentGroup actors, float multiplier, float clipping) {
 		super(actors);
 
 		this.multiplier = multiplier;
 		this.clipping = clipping;
-		this.maxSpeed = maxSpeed;
 	}
 
 	@Override
@@ -62,14 +62,6 @@ public abstract class ForceInteraction extends Interaction {
 		return clipping;
 	}
 
-	/**
-	 * maxSpeed getter
-	 * 
-	 * @return
-	 */
-	public float getMaxSpeed() {
-		return maxSpeed;
-	}
 
 	/**
 	 * Utilitary function that compute the force from target velocity and apply
@@ -80,7 +72,7 @@ public abstract class ForceInteraction extends Interaction {
 	 */
 	protected void process(Agent agent, FVector2D target) {
 		target.normalize();
-		target.mult(maxSpeed);
+		target.mult(agent.getMaxSpeed());
 		target.sub(agent.getVelocity());
 		target.mult(multiplier);
 		target.clip(clipping);

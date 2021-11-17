@@ -45,8 +45,8 @@ public class PredatorGroup extends BoidGroup {
 	 * @param group
 	 */
 	public void addPreyGroup(AgentGroup group) {
-		group.addInteraction(new SeparationForce(this, 20.0f, 1.0f, 1.4f, initialMaxSpeed));
-		this.addInteraction(new TrackingForce(group, 1.0f, 1.2f, initialMaxSpeed));
+		group.addInteraction(new SeparationForce(this, 20.0f, 1.0f, 1.4f));
+		this.addInteraction(new TrackingForce(group, 1.0f, 1.2f));
 	}
 
 	/**

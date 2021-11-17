@@ -73,9 +73,9 @@ public class Agent extends Entity {
 	 * @param radius
 	 */
 	public void setRadius(float radius) {
-		this.radius = radius;
 		if (radius > maxRadius)
 			radius = maxRadius;
+		this.radius = radius;
 	}
 
 	/**
