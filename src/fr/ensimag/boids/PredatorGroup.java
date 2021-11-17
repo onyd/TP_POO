@@ -22,6 +22,7 @@ public class PredatorGroup extends BoidGroup {
 	 * @param updateStep
 	 * @param agentNumber
 	 * @param initialRadius
+	 * @param initialMaxradius
 	 * @param initialViewDistance
 	 * @param initialFov
 	 * @param initialMaxSpeed
@@ -45,8 +46,8 @@ public class PredatorGroup extends BoidGroup {
 	 * @param group
 	 */
 	public void addPreyGroup(AgentGroup group) {
-		group.addInteraction(new SeparationForce(this, 20.0f, 1.0f, 1.4f));
-		this.addInteraction(new TrackingForce(group, 1.0f, 1.2f));
+		group.addInteraction(new SeparationForce(this, 20.0f, 1.0f, 1.3f));
+		this.addInteraction(new TrackingForce(group, 1.0f, 1.3f));
 	}
 
 	/**

@@ -14,15 +14,24 @@ import fr.ensimag.math.FVector2D;
 public class Agent extends Entity {
 	private FVector2D velocity;
 	private float maxSpeed;
+	/**
+	 * Describe the size of the agent
+	 */
 	private float radius;
 	private float maxRadius;
+	/**
+	 * Describe the maximum distance between two agents to consider them neighbours
+	 */
 	private float viewDistance;
+	/**
+	 * Describe the field of view of the agent centered on its looking direction
+	 */
 	private float fov;
 	private Color color;
 	private boolean alive = true;
 
 	/**
-	 * Create an agent with specified caracteristics
+	 * Create an agent with specified characteristics
 	 * 
 	 * @param position
 	 * @param velocity

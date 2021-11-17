@@ -18,6 +18,7 @@ public class BoidGroup extends AgentGroup {
 	 * @param updateStep
 	 * @param agentNumber
 	 * @param initialRadius
+	 * @param initialMaxradius
 	 * @param initialViewDistance
 	 * @param initialFov
 	 * @param initialMaxSpeed
@@ -31,7 +32,7 @@ public class BoidGroup extends AgentGroup {
 
 		this.addInteraction(new CohesionForce(this, 1.0f, 0.4f));
 		this.addInteraction(new AlignmentForce(this, 1.0f, 0.5f));
-		this.addInteraction(new SeparationForce(this, initialRadius, 1.0f, 1.1f));
+		this.addInteraction(new SeparationForce(this, initialRadius, 1.0f, 1.3f));
 	}
 
 }

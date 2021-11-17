@@ -32,14 +32,20 @@ public abstract class Interaction {
 	public abstract void interaction(Agent target, List<Agent> actors);
 
 	/**
-	 * Apply the interactions to allthe targets
+	 * Apply the interactions to all the targets (null actors is used for
+	 * interactions related to environment interactions)
 	 * 
 	 * @param targets
 	 */
 	public void apply(ArrayList<Agent> targets) {
-		List<Agent> agents = actors.getLivingAgents();
-		for (Agent target : targets)
-			this.interaction(target, agents);
+		if (this.actors != null) {
+			List<Agent> agents = actors.getLivingAgents();
+			for (Agent target : targets)
+				this.interaction(target, agents);
+		} else {
+			for (Agent target : targets)
+				this.interaction(target, null);
+		}
 	}
 
 	/**

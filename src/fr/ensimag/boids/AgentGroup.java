@@ -18,8 +18,10 @@ import fr.ensimag.util.Pair;
  */
 public class AgentGroup {
 	protected int agentNumber;
-	private BiDimensionalArray<ArrayList<Agent>> agentsGrid; // Stores the Agent in each grid cell of width/height
-																// viewDistance/sqrt(2)
+	/**
+	 * Stores the Agent in each grid cell of width/height viewDistance/sqrt(2)
+	 */
+	private BiDimensionalArray<ArrayList<Agent>> agentsGrid;
 	private ArrayList<Interaction> interactions;
 	private float initialRadius;
 	private float initialMaxRadius;
@@ -136,6 +138,7 @@ public class AgentGroup {
 
 	/**
 	 * Initial max speed getter
+	 * 
 	 * @return
 	 */
 	public float getInitialMaxSpeed() {
@@ -166,19 +169,19 @@ public class AgentGroup {
 	/**
 	 * Add an interaction to the group
 	 * 
-	 * @param i
+	 * @param interaction
 	 */
-	public void addInteraction(Interaction i) {
-		this.interactions.add(i);
+	public void addInteraction(Interaction interaction) {
+		this.interactions.add(interaction);
 	}
 
 	/**
 	 * Remove an interaction of the group
 	 * 
-	 * @param i
+	 * @param interaction
 	 */
-	public void removeInteraction(Interaction i) {
-		this.interactions.remove(i);
+	public void removeInteraction(Interaction interaction) {
+		this.interactions.remove(interaction);
 	}
 
 	/**
@@ -205,8 +208,7 @@ public class AgentGroup {
 	 * 
 	 * @param area
 	 */
-	public void applyInteractions(Area<Agent> area) {
-		// Update each boids of each grid cells
+	public void applyInteractions() {
 		for (int i = 0; i < agentsGrid.getHeight(); i++) {
 			for (int j = 0; j < agentsGrid.getWidth(); j++) {
 				Pair<Integer, Integer> key = new Pair<Integer, Integer>(i, j);
@@ -223,8 +225,7 @@ public class AgentGroup {
 	 * 
 	 * @param area
 	 */
-	public void applyInteractionsOptimized(Area<Agent> area) {
-		// Update each boids of each grid cells
+	public void applyInteractionsOptimized() {
 		for (int i = 0; i < agentsGrid.getHeight(); i++) {
 			for (int j = 0; j < agentsGrid.getWidth(); j++) {
 				Pair<Integer, Integer> key = new Pair<Integer, Integer>(i, j);

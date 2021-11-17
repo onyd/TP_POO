@@ -15,7 +15,7 @@ import fr.ensimag.math.FVector2D;
 public class TrackingForce extends ForceInteraction {
 
 	/**
-	 * Create an tracking force interaction
+	 * Create a tracking force interaction
 	 * 
 	 * @param actors
 	 * @param multiplier

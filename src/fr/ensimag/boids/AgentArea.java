@@ -6,6 +6,8 @@ import java.util.Random;
 
 import fr.ensimag.core.EventArea;
 import fr.ensimag.events.AgentGroupUpdateEvent;
+import fr.ensimag.events.AreaUpdateEvent;
+import fr.ensimag.interactions.GlobalInteraction;
 import fr.ensimag.math.FPoint2D;
 import fr.ensimag.math.FVector2D;
 
@@ -16,6 +18,7 @@ import fr.ensimag.math.FVector2D;
 public class AgentArea extends EventArea<Agent> {
 	private ArrayList<AgentGroup> groups;
 	private boolean optimized;
+	private ArrayList<GlobalInteraction> interactions;
 
 	/**
 	 * Create an agent area of size (width, height) in pixel
@@ -32,21 +35,26 @@ public class AgentArea extends EventArea<Agent> {
 
 		this.groups = new ArrayList<>();
 		this.optimized = optimized;
-		
+		this.interactions = new ArrayList<>();
+
 		if (optimized)
 			respectOptimizedRestrictions();
 	}
 
+	/**
+	 * Ensure that the restriction imposed by optimized version (only at the
+	 * creation, the user is warned to use non-optimized version instead)
+	 */
 	private void respectOptimizedRestrictions() {
 		for (int i = 0; i < groups.size() - 1; i++) {
 			AgentGroup a = groups.get(i);
-			AgentGroup b = groups.get(i+1);
+			AgentGroup b = groups.get(i + 1);
 			if (a.getInitialViewDistance() != b.getInitialViewDistance()) {
 				throw new AssertionError("In optimized mode all groups must have the same view distance");
 			}
 		}
 	}
-	
+
 	/**
 	 * Add an group of agents
 	 * 
@@ -57,6 +65,24 @@ public class AgentArea extends EventArea<Agent> {
 		for (Agent agent : group.getLivingAgents()) {
 			this.entities.add(agent);
 		}
+	}
+
+	/**
+	 * Add an interaction to the area
+	 * 
+	 * @param interaction
+	 */
+	public void addInteractions(GlobalInteraction interaction) {
+		this.interactions.add(interaction);
+	}
+
+	/**
+	 * Remove an interaction of the area
+	 * 
+	 * @param interaction
+	 */
+	public void removeInteraction(GlobalInteraction interaction) {
+		this.interactions.remove(interaction);
 	}
 
 	/**
@@ -91,6 +117,12 @@ public class AgentArea extends EventArea<Agent> {
 		return velocities;
 	}
 
+	public void applyGlobalInteractions() {
+		for (GlobalInteraction i : this.interactions) {
+			i.apply(entities);
+		}
+	}
+
 	/**
 	 * Setup the groups and begin the simulation
 	 */
@@ -102,6 +134,8 @@ public class AgentArea extends EventArea<Agent> {
 			// The event to launch the simulation
 			this.addEvent(new AgentGroupUpdateEvent(0, group.getUpdateStep(), group, this, optimized));
 		}
+
+		this.addEvent(new AreaUpdateEvent(0, this));
 	}
 
 	/**
