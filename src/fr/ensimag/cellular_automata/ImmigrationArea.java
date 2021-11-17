@@ -6,6 +6,9 @@ import fr.ensimag.math.MathUtil;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Implementation of GridArea for Immigration's game
+ */
 public class ImmigrationArea extends GridArea{
     public ImmigrationArea(int width, int height, int caseSize){
         super(width, height, caseSize);

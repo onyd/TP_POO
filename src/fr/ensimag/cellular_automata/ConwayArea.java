@@ -6,6 +6,9 @@ import fr.ensimag.math.MathUtil;
 import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * Implementation of GridArea for Conway's game of life
+ */
 public class ConwayArea extends GridArea{
     public ConwayArea(int width, int height, int caseSize){
         super(width, height, caseSize);
