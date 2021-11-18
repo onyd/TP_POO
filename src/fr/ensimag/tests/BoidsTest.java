@@ -11,15 +11,15 @@ import gui.GUISimulator;
 
 public class BoidsTest {
 	public static void main(String[] args) {
-		AgentArea area = new AgentArea(600, 400, false);
+		AgentArea area = new AgentArea(600, 400, true);
 		float r = 5.0f;
 		float maxSpeed = 5.0f;
 		float fov = 360.0f;
-		float viewDistance = 40.0f;
+		float viewDistance = 50.0f;
 
 		// Use of predefined group
 		BoidGroup preys1 = new BoidGroup(1, 200, r, 2 * r, viewDistance, fov, maxSpeed, Color.BLUE, area);
-		BoidGroup preys2 = new BoidGroup(1, 200, r, 2 * r, viewDistance, fov, maxSpeed, Color.GREEN, area);
+		BoidGroup preys2 = new BoidGroup(1, 50, r, 2 * r, viewDistance, fov, maxSpeed, Color.GREEN, area);
 		PredatorGroup predators = new PredatorGroup(2, 50, r, 2 * r, viewDistance, fov, maxSpeed, Color.ORANGE, area,
 				preys1, preys2);
 
@@ -33,7 +33,8 @@ public class BoidsTest {
 		preys2.addInteraction(new SeparationForce(preys1, preys2.getInitialRadius(), 1.0f, 1.1f));
 
 		// There is also an interaction over all the area
-		//area.addInteractions(new WindForce(1.5f, 1.7f, 2.0f, new FVector2D(1.0f, -1.0f), 60.0f));
+		// area.addInteractions(new WindForce(1.5f, 1.7f, 2.0f, new FVector2D(1.0f,
+		// -1.0f), 60.0f));
 
 		// Specifically, predators can eat a specified group
 		predators.allowEating(preys1, area, 30);

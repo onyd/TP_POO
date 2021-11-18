@@ -13,7 +13,6 @@ public abstract class GlobalInteraction {
 	 * Do all the computations of the interaction
 	 * 
 	 * @param target
-	 * @param actors
 	 */
 	public abstract void interaction(Agent target);
 

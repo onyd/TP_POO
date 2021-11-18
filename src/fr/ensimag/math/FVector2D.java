@@ -61,7 +61,7 @@ public class FVector2D {
 	/**
 	 * Performs the substraction of this and a point
 	 * 
-	 * @param v the point to substract
+	 * @param p the point to substract
 	 */
 	public void sub(FPoint2D p) {
 		this.x -= p.x;

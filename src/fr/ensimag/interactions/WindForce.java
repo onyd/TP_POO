@@ -17,8 +17,7 @@ public class WindForce extends GlobalForce {
 
 	/**
 	 * Create a wind force interaction
-	 * 
-	 * @param actors
+	 *
 	 * @param multiplier
 	 * @param clipping
 	 * @param intensity

@@ -205,8 +205,6 @@ public class AgentGroup {
 
 	/**
 	 * Apply each interactions of the group to each agents naively
-	 * 
-	 * @param area
 	 */
 	public void applyInteractions() {
 		for (int i = 0; i < agentsGrid.getHeight(); i++) {
@@ -222,8 +220,6 @@ public class AgentGroup {
 	/**
 	 * Apply each interactions of the group to each agents by using grid slicing
 	 * optimization
-	 * 
-	 * @param area
 	 */
 	public void applyInteractionsOptimized() {
 		for (int i = 0; i < agentsGrid.getHeight(); i++) {
@@ -319,9 +315,8 @@ public class AgentGroup {
 
 	/**
 	 * Compute the neighboors cell indicies for a given cell
-	 * 
-	 * @param i
-	 * @param j
+	 *
+	 * @param cell
 	 * @return the indicies as an List of Pair
 	 */
 	private List<Pair<Integer, Integer>> getNeighboorsRegions(Pair<Integer, Integer> cell) {
