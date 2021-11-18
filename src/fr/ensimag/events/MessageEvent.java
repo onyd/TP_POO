@@ -1,6 +1,4 @@
-package fr.ensimag.tests;
-
-import fr.ensimag.events.Event;
+package fr.ensimag.events;
 
 public class MessageEvent extends Event {
 	private String message;

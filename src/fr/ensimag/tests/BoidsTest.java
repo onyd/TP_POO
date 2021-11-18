@@ -33,7 +33,7 @@ public class BoidsTest {
 		preys2.addInteraction(new SeparationForce(preys1, preys2.getInitialRadius(), 1.0f, 1.1f));
 
 		// There is also an interaction over all the area
-		area.addInteractions(new WindForce(1.5f, 1.7f, 2.0f, new FVector2D(1.0f, -1.0f), 60.0f));
+		//area.addInteractions(new WindForce(1.5f, 1.7f, 2.0f, new FVector2D(1.0f, -1.0f), 60.0f));
 
 		// Specifically, predators can eat a specified group
 		predators.allowEating(preys1, area, 30);

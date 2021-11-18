@@ -1,6 +1,7 @@
 package fr.ensimag.tests;
 
 import fr.ensimag.events.EventManager;
+import fr.ensimag.events.MessageEvent;
 
 public class TestEventManager {
 	public static void main(String[] args) throws InterruptedException {
