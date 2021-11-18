@@ -14,9 +14,6 @@ public class EatInteraction extends Interaction {
 	/**
 	 * Create an eat interaction 
 	 * @param actors
-	 * @param multiplier
-	 * @param clipping
-	 * @param maxSpeed
 	 */
 	public EatInteraction(AgentGroup actors) {
 		super(actors);
@@ -25,7 +22,8 @@ public class EatInteraction extends Interaction {
 	@Override
 	public void interaction(Agent target, List<Agent> actors) {
 		for (Agent a : actors) {
-			if (a.isAlive() && target.isViewing(a) && target.getRadius() < target.getMaxRadius()) {
+			float distance = a.getPosition().distance(target.getPosition());
+			if (a.isAlive() && target.isViewing(a) && distance < 3 * target.getRadius()) {
 				a.kill();
 				target.setRadius(target.getRadius() + 1);
 			}

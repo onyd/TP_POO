@@ -22,7 +22,7 @@ public class PredatorGroup extends BoidGroup {
 	 * @param updateStep
 	 * @param agentNumber
 	 * @param initialRadius
-	 * @param initialMaxradius
+	 * @param initialMaxRadius
 	 * @param initialViewDistance
 	 * @param initialFov
 	 * @param initialMaxSpeed
