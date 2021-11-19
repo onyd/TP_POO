@@ -1,13 +1,17 @@
-Ensimag 2A POO - TPL
+Ensimag 2A POO - Equipe 52
+
 ============================
 
-- src: contient les classes fournies par les enseignants 
-  -> TestGUI.java : cree une fenetre graphique "Invaders", pas de simulation
-  Et c'est tout, en fait!
+- src: contient les différentes classes de l'implémentations, divisées dans des packages correspondants aux rôles des classes.
 
 - bin/gui.jar: archive Java contenant les classes de l'interface graphique. Voir un exemple d'utilisation dans TestGUI.java
 
 - doc_gui: la documentation (API) des classes de l'interface graphique contenues dans gui.jar. Point d'entrée: index.html
 
-- Makefile: quelques explications sur la compilation en ligne, notamment la notion de classpath et l'utilisation de ihm.jar
+============================
 
+Avant de commencer à analyser le code, le correcteur est invité à regarder le diagramme UML et à lire le rapport de l'archive.
+ 
+La division du code peut être déroutante au départ. Mais comme dit dans le rapport, bien comprendre la séparation des parties calcul et graphique de la partie sur les balles permet de comprendre les suivantes. 
+
+Bonne lecture :)
