@@ -35,6 +35,22 @@ testGUI:
 exeGUI:
 	java -classpath bin:bin/gui.jar TestGUI
 
+exeConway:
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/fr/ensimag/tests/ConwayTest.java
+	java -classpath bin:bin/gui.jar fr/ensimag/tests/ConwayTest
+
+exeImmigration:
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/fr/ensimag/tests/ImmigrationTest.java
+	java -classpath bin:bin/gui.jar fr/ensimag/tests/ImmigrationTest
+	
+exeSchelling:
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/fr/ensimag/tests/SchellingTest.java
+	java -classpath bin:bin/gui.jar fr/ensimag/tests/SchellingTest
+	
+exeBoids:
+	javac -d bin -classpath bin/gui.jar -sourcepath src src/fr/ensimag/tests/BoidsTest.java
+	java -classpath bin:bin/gui.jar fr/ensimag/tests/BoidsTest
+
 clean:
 	rm -rf bin/*.class
 
