@@ -14,4 +14,6 @@ Avant de commencer à analyser le code, le correcteur est invité à regarder le
  
 La division du code peut être déroutante au départ. Mais comme dit dans le rapport, bien comprendre la séparation des parties calcul et graphique de la partie sur les balles permet de comprendre les suivantes. 
 
+Les différents fichiers de tests se trouvent dans le répertoire src/fr/ensimag/tests. Il suffit de les compiler et de les exécuter avec les commandes vues en cours pour lancer les simulations.
+
 Bonne lecture :)
